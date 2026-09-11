@@ -170,9 +170,9 @@ The validation test also checks that the committed evidence does not expose cred
 
 The latest documented production-readiness sequence closed with Sprint 037.
 
-![RACB Agent Factory Sprint 037 evidence](../evidence/racb-agent-factory/agent-factory-sprint-037.png)
+![RACB Agent Factory Sprint 037 evidence](../evidence/racb-agent-factory/agent-factory-sprints-037.jpg)
 
-*Sanitized Sprint 037 execution evidence preserving lifecycle, review, correction-round, and deterministic-gate results while omitting private repository, session, path, and remote identifiers.*
+*Sanitized Sprint 037 execution evidence preserving lifecycle, review, correction-round, audit, routing, and deterministic-gate results while omitting sensitive local paths and the active session identifier.*
 
 The recorded result includes:
 
