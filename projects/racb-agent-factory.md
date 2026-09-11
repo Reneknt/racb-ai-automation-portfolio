@@ -23,6 +23,12 @@ Agent Factory separates those responsibilities. Work is bounded by a sprint cont
 
 The implementation repository remains private. This page publishes sanitized architectural and validation evidence rather than proprietary source code.
 
+### Operator control surface
+
+![RACB Agent Factory operational dashboard](../evidence/racb-agent-factory/agent-factory-dashboard.jpg)
+
+*Sanitized Control UI evidence showing the operational sprint surface and governed execution state.*
+
 ## The problem
 
 AI coding agents introduce useful execution capacity, but unattended delivery also creates operational risks:
@@ -91,6 +97,12 @@ flowchart LR
 
 The architecture deliberately separates model-driven work from deterministic repository controls and durable lifecycle evidence.
 
+### Model Bank and execution capability registry
+
+![RACB Agent Factory Model Bank](../evidence/racb-agent-factory/agent-factory-model-bank.jpg)
+
+*Sanitized Control UI evidence of the Model Bank used to represent authorized execution capabilities across model/provider options.*
+
 ## Safety and control model
 
 After independent review, deterministic Git controls evaluate the repository before an authorized push can occur.
@@ -158,6 +170,10 @@ The validation test also checks that the committed evidence does not expose cred
 
 The latest documented production-readiness sequence closed with Sprint 037.
 
+![RACB Agent Factory Sprint 037 evidence](../evidence/racb-agent-factory/agent-factory-sprint-037.png)
+
+*Sanitized Sprint 037 execution evidence preserving lifecycle, review, correction-round, and deterministic-gate results while omitting private repository, session, path, and remote identifiers.*
+
 The recorded result includes:
 
 - final lifecycle state `CLOSED`;
@@ -172,6 +188,12 @@ The recorded result includes:
 - 0 errors.
 
 This evidence is repository-recorded project verification. It is not presented as an external certification or third-party benchmark.
+
+### Sprint history
+
+![RACB Agent Factory sprint history](../evidence/racb-agent-factory/agent-factory-history.jpg)
+
+*Sanitized sprint-history evidence showing completed, failed, and escalated lifecycle outcomes rather than presenting only successful executions.*
 
 ## Verified technology profile
 
