@@ -26,8 +26,8 @@ Human-governed AI operations cockpit for task control, deterministic routing, go
 
 **Evidence:** Verified Implementation + Local Static Verification. **Maturity:** Functional Prototype.
 
-### [RAEN-01 Homelab](./raen-01-homelab.md)
+### [RACB Homelab](./homelab.md)
 
-Version-controlled infrastructure platform for Docker services, secure service publication, host observability, and governed native AI execution tooling, with runtime/documentation reconciliation and explicit validation boundaries.
+Version-controlled infrastructure platform for RACBCONSULTING, currently anchored by the RAEN-01 node and combining containerized services, secure service publication, observability, and governed host-level AI execution tooling.
 
 **Evidence:** Verified Implementation + Runtime Correlation + Documentation Governance. **Maturity:** Validated Infrastructure Platform.
