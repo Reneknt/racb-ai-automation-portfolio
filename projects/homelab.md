@@ -24,6 +24,12 @@ The project is managed as a version-controlled infrastructure system rather than
 
 The implementation repository remains private. This page publishes sanitized architectural and runtime evidence while intentionally excluding credentials, private addressing, internal routing details, usernames, filesystem paths, tunnel identifiers, and other operationally sensitive information.
 
+### Runtime infrastructure evidence
+
+![RACB Homelab container runtime](../evidence/homelab/Infrastructure%20-%20Containers.png)
+
+*Sanitized Portainer evidence showing active infrastructure services and co-located RACB workloads on the current primary node. Internal addressing and published-port mappings are intentionally redacted.*
+
 ## The problem
 
 A homelab can become difficult to trust when the running machine becomes the only source of truth.
@@ -96,6 +102,12 @@ This structure supports a practical rule:
 
 **Git records the intended infrastructure state; runtime observation verifies whether the host actually matches that intent.**
 
+### Remote infrastructure administration
+
+![RACB Homelab remote infrastructure workspace](../evidence/homelab/VS%20Code%20conectado%20a%20RAEN-01.png)
+
+*Sanitized VS Code Remote SSH evidence showing the version-controlled Homelab workspace on RAEN-01, including architecture decisions, Compose definitions, documentation, policy sources, and systemd configuration. Local operator identity is intentionally redacted.*
+
 ## Implemented infrastructure surface
 
 The audited repository contains real definitions for the core platform services below:
@@ -129,6 +141,10 @@ flowchart LR
     TR --> S3[Authorized Service]
 ```
 
+![RACB Homelab secure application publication](../evidence/homelab/Cloudflare%20Tunnel.png)
+
+*Sanitized Cloudflare Tunnel evidence showing multiple published application routes converging on the Homelab reverse-proxy layer. Account identity and application hostnames are intentionally redacted while the Traefik service target remains visible as architectural evidence.*
+
 A recently versioned route also integrates the RACB Agent Factory operator interface into the same reverse-proxy publication pattern.
 
 Private hostnames, addressing, route internals, and tunnel details are intentionally omitted from this public representation.
@@ -136,6 +152,10 @@ Private hostnames, addressing, route internals, and tunnel details are intention
 ## Host observability
 
 The current primary node, RAEN-01, includes dedicated host-level observability through Netdata.
+
+![RACB Homelab host observability](../evidence/homelab/Host%20Observability.png)
+
+*Live Netdata evidence from RAEN-01 showing CPU, memory, load, thermal, process-state, and disk I/O telemetry on the current primary node.*
 
 The verified architecture uses host-native observability because host health cannot be inferred reliably only from inside application containers or restricted agent sandboxes.
 
