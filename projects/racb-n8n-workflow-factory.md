@@ -23,6 +23,12 @@ Workflow Factory establishes a machine-checkable layer around workflow artifacts
 
 The implementation repository remains private. This page publishes sanitized architectural, validation, and benchmark evidence rather than proprietary source code or production credentials.
 
+### Generated and remediated workflow evidence
+
+![RACB Lead Verification remediated workflow](../evidence/racb-n8n-workflow-factory/lead-verification-remediated.png)
+
+*Sanitized n8n canvas evidence of the remediated RACB Lead Verification workflow. The workflow was produced through RACB Workflow Factory and subsequently hardened through deterministic validation and independent technical review. The artifact demonstrates validated workflow engineering; active production deployment is not implied.*
+
 ## The problem
 
 Low-code automation does not eliminate engineering risk. As workflows grow across webhooks, APIs, databases, CRMs, messaging systems, and AI services, operational defects can become difficult to detect visually.
