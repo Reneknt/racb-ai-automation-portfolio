@@ -25,3 +25,9 @@ Governed n8n workflow engineering with deterministic artifact validation, compat
 Human-governed AI operations cockpit for task control, deterministic routing, governance, persistence, decision/audit workflows, and runtime investigation inside VS Code.
 
 **Evidence:** Verified Implementation + Local Static Verification. **Maturity:** Functional Prototype.
+
+### [RAEN-01 Homelab](./raen-01-homelab.md)
+
+Version-controlled infrastructure platform for Docker services, secure service publication, host observability, and governed native AI execution tooling, with runtime/documentation reconciliation and explicit validation boundaries.
+
+**Evidence:** Verified Implementation + Runtime Correlation + Documentation Governance. **Maturity:** Validated Infrastructure Platform.
