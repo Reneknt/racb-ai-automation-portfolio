@@ -114,6 +114,12 @@ node scripts/validate-workflows.js \
 --verbose
 ```
 
+### Audit execution evidence
+
+![RACB Workflow Factory audit benchmark](../evidence/racb-n8n-workflow-factory/workflow-audit-benchmark.png)
+
+*Sanitized CLI evidence of RACB Workflow Factory auditing an external operational n8n workflow under the production profile. The run reported 14 errors and 4 warnings and was used to benchmark both the validator's current deterministic capability and its known compatibility-policy limitations. Reported compatibility findings are not presented as proof that every mismatch represents a runtime failure.*
+
 The deterministic run reported:
 
 | Result | Count |
