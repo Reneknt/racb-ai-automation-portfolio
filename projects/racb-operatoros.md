@@ -4,7 +4,7 @@
 
 | Attribute | Verified status |
 |---|---|
-| Evidence level | **Verified Implementation + Local Static Verification** |
+| Evidence level | **Verified Implementation + Local Static Verification + Runtime Control-Plane Validation** |
 | Implementation repository | Private |
 | Audited checkpoint | `afcccc8` |
 | Project maturity | **Functional Prototype** |
@@ -12,7 +12,7 @@
 | Primary capability | AI Operations & Governance |
 | Secondary capability | AI & Agentic Systems |
 | Product surface | TypeScript VS Code extension + webview Cockpit |
-| External model/provider execution | **Simulated at this checkpoint** |
+| External model/provider execution | **Simulated in the validated dispatch path at this checkpoint** |
 
 ## Overview
 
@@ -22,7 +22,13 @@ The project began from a practical orchestration problem: working across multipl
 
 OperatorOS explores a unified control plane for those responsibilities. Its implemented prototype combines operator and execution-source models, task lifecycle controls, deterministic routing recommendations, governance evaluation, persistence, decision records, audit views, and runtime investigation tooling.
 
-The implementation repository remains private. This page publishes sanitized architectural evidence and explicitly preserves the project's current execution boundary: the control-plane implementation is substantial, but live external LLM/provider execution is not implemented at the audited checkpoint.
+The implementation repository remains private. This page publishes sanitized architectural evidence and explicitly preserves the project's current execution boundary: the control-plane implementation is substantial, while the audited and runtime-validated dispatch path remains simulated rather than demonstrating direct external LLM/provider invocation.
+
+## Visual evidence — VS Code extension
+
+![RACB OperatorOS VS Code extension](../evidence/racb-operatoros/OperatorOS%20VS%20Code%20Extension.png)
+
+*OperatorOS running inside a VS Code Extension Development Host. The activity-bar integration and Operator Panel expose operator selection, task instruction, context attachment, dispatch controls, inbox/activity state, and the governed runtime posture. Provider/operator labels represent the prototype's configured control-plane model and are not presented as proof of live external execution.*
 
 ## The problem
 
@@ -69,7 +75,13 @@ flowchart TD
     AU --> PS
 ```
 
-At checkpoint `afcccc8`, the architecture above represents a real implemented control plane around a deliberately disclosed simulated execution boundary.
+At checkpoint `afcccc8`, the architecture above represents a real implemented control plane around an explicitly disclosed simulated execution boundary.
+
+## Operator Cockpit
+
+![RACB OperatorOS Cockpit](../evidence/racb-operatoros/operatoros-Cockpit.png)
+
+*Sanitized runtime view of the OperatorOS Cockpit inside VS Code. The interface exposes task and thread state, activity, context, system posture, execution-source profiles, persistence, investigation controls, Decision Journal controls, and runtime commands. “Runtime Online” describes the OperatorOS control-plane runtime; it does not establish that listed external providers are being invoked live.*
 
 ## Operator and execution-source separation
 
@@ -86,7 +98,11 @@ flowchart LR
     A --> X[Result]
 ```
 
-This separation is implemented in the prototype's model and routing structures. However, source profiles and metadata do **not** establish live provider integrations. At the audited checkpoint, only simulated execution is wired into the runtime.
+![Operator versus execution source evidence](../evidence/racb-operatoros/operatoros-operator-vs-execution-source.png)
+
+*The operator selector exposes Realex, Claude, and Perplexity as operator roles while the Cockpit separately exposes execution-source profiles such as CLI, local, web, and API-oriented sources. This visually demonstrates the implemented Operator ≠ Execution Source model. Source availability/profile metadata is not treated as proof of direct provider invocation.*
+
+This separation is implemented in the prototype's model and routing structures. The audited code and runtime validation do not establish direct live provider invocation through the registered execution adapter at this checkpoint.
 
 ## Deterministic routing model
 
@@ -138,7 +154,19 @@ Delegation includes implemented coordination constructs for:
 - review summaries;
 - delegation history.
 
-The analytical and coordination code is real, while the underlying delegated outputs at this checkpoint are simulated/templated. Accordingly, delegation evidence is presented as prototype orchestration logic rather than live multi-provider execution.
+The analytical and coordination code is real, while the underlying delegated outputs in the validated checkpoint remain simulated/templated. Accordingly, delegation evidence is presented as prototype orchestration logic rather than live multi-provider execution.
+
+## Runtime control-plane validation
+
+A controlled local runtime check was performed after the code audit using the VS Code Extension Development Host without modifying the implementation.
+
+Simple deterministic test instructions were dispatched across the Realex, Claude, and Perplexity operator profiles. OperatorOS created and surfaced task/inbox state, runtime threads, activity records, review state, context status, and operator-specific dispatch history. The interface explicitly reported the dispatch result as **SIMULATED**.
+
+![OperatorOS simulated runtime validation](../evidence/racb-operatoros/operatoros-runtime-simulated-validation.png)
+
+*Runtime evidence after dispatching controlled test tasks across Realex, Claude, and Perplexity operator profiles. The control plane records the operator-specific tasks, review states, runtime threads, and activity timeline while explicitly reporting simulated execution. This validates the control-plane behavior and simultaneously documents the external-execution boundary.*
+
+This runtime check does **not** validate external provider execution, provider failover, production telemetry, or end-to-end model orchestration. It strengthens the evidence for the implemented control plane while confirming that the tested dispatch path remains simulated.
 
 ## Decision governance and audit
 
@@ -169,7 +197,11 @@ Available analysis surfaces include:
 - snapshot comparison;
 - investigation summaries.
 
-These tools operate over stored activity, governance, delegation, snapshot, and operator-input history. Because provider execution remains simulated, calculated performance, consensus, quality, contradiction, duration, and related signals are **prototype observability**, not production provider telemetry.
+![OperatorOS investigation and audit controls](../evidence/racb-operatoros/operatoros-investigation-audit.png)
+
+*Focused Cockpit evidence showing execution-source profiles alongside persistence/workspace controls, investigation actions, and Decision Journal operations. These controls are implemented prototype surfaces; provider-derived performance or quality metrics are not represented as production telemetry.*
+
+These tools operate over stored activity, governance, delegation, snapshot, and operator-input history. Because the validated dispatch path remains simulated, calculated performance, consensus, quality, contradiction, duration, and related signals are **prototype observability**, not production provider telemetry.
 
 Two additional models—incident records and investigation sessions—exist as foundation-level structures at this checkpoint but are not represented as operational incident-management or persisted investigation-session capabilities.
 
@@ -192,11 +224,11 @@ The Decision Journal is bounded rather than storage-level immutable or permanent
 
 The most important maturity boundary is explicit:
 
-**External model/provider execution is simulated at checkpoint `afcccc8`.**
+**The audited and runtime-validated OperatorOS dispatch path is simulated at checkpoint `afcccc8`.**
 
-The extension registers a simulated execution adapter. Operator dispatch produces simulated results, and the delegation result path generates source-labeled prototype outputs rather than invoking Claude, OpenAI, Perplexity, Ollama, OpenRouter, or another external provider.
+The extension registers a simulated execution adapter, and controlled runtime dispatches to Realex, Claude, and Perplexity explicitly returned simulated results while exercising the surrounding task/review/thread/activity control plane.
 
-Consequently, execution-source entries, enabled/available metadata, provider names, routing scores, and Cockpit source labels must not be interpreted as proof of live connectivity.
+OperatorOS also contains execution-source profiles and metadata for CLI, local, web, and API-oriented sources. Those profiles may describe configured or intended environments, but the evidence published here does not use profile state, provider labels, authentication metadata, or UI availability indicators as proof of direct live provider invocation.
 
 This boundary is why OperatorOS is classified as a **Functional Prototype** rather than a validated production orchestration platform.
 
@@ -214,8 +246,9 @@ This boundary is why OperatorOS is classified as a **Functional Prototype** rath
 | Audit | Decision Journal, attachments, audit timeline/trail |
 | Integrity | SHA-256 hash-based decision consistency checks |
 | Investigation | Anomaly, contradiction, governance, trace, heatmap, timeline, snapshot analysis |
-| External execution | Simulated adapter at audited checkpoint |
+| External execution | Simulated in the validated dispatch path at audited checkpoint |
 | Static verification | TypeScript compilation completed successfully at audited checkpoint |
+| Runtime verification | Controlled dispatch exercised task, review, thread, and activity surfaces and explicitly returned simulated execution |
 
 The audited package does not define an automated test suite or lint script. Successful TypeScript compilation is therefore reported as static verification, not as test coverage.
 
@@ -243,7 +276,7 @@ OperatorOS is not presented as a finished autonomous AI platform.
 At the audited checkpoint, public evidence does **not** imply:
 
 - production-ready multi-LLM orchestration;
-- live Claude, OpenAI, Perplexity, Ollama, or OpenRouter execution;
+- verified direct live Claude, OpenAI, Perplexity, Ollama, or OpenRouter execution through the tested OperatorOS dispatch path;
 - autonomous end-to-end execution;
 - validated provider failover;
 - universal governance enforcement over every execution path;
@@ -276,7 +309,9 @@ The projects therefore demonstrate an architectural progression from broad contr
 
 **LOCAL STATIC VERIFICATION** — at checkpoint `afcccc8`, the TypeScript project compiled successfully with no diagnostics using already-present dependencies. No automated test suite or lint suite is claimed.
 
-**FUNCTIONAL PROTOTYPE** — substantial control-plane functionality is implemented and integrated, while external model/provider execution remains simulated.
+**RUNTIME CONTROL-PLANE VALIDATION** — controlled dispatches through the running VS Code extension exercised operator-specific task creation, review state, runtime threads, and activity records. The runtime explicitly identified execution as simulated, so this evidence validates the surrounding control plane rather than external LLM execution.
+
+**FUNCTIONAL PROTOTYPE** — substantial control-plane functionality is implemented and integrated, while the audited and tested external-execution path remains simulated.
 
 ## Disclosure boundary
 
