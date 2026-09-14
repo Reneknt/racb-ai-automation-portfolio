@@ -20,6 +20,12 @@ RACBCONSULTING MVP is a production-deployed executive assessment and proposal ap
 
 The implementation repository remains private. This page publishes sanitized architecture, security and correctness controls, validation results, operational integration boundaries, and deployment evidence without exposing credentials, prospect data, private infrastructure details, or proprietary source code.
 
+### Public assessment entry surface
+
+![RACBCONSULTING MVP assessment landing page](../evidence/racbconsulting-mvp/Assesment%20Landing%20Page.png)
+
+*Sanitized production UI evidence showing the public assessment entry point and the visible separation between prospect interaction and private consultant access.*
+
 ## The problem
 
 A business assessment application can appear operational while still containing important authorization, data-integrity, deployment, or workflow-boundary weaknesses.
@@ -128,9 +134,19 @@ flowchart TD
     PT -. rejected .-> CR
 ```
 
+### Consultant authentication boundary
+
+![RACBCONSULTING MVP consultant authentication](../evidence/racbconsulting-mvp/Authenticated%20Consultant%20Portal.png)
+
+*Sanitized production UI evidence showing the consultant authentication boundary before privileged internal assessment access.*
+
 ### Consultant authority
 
 A consultant session can access consultant-only assessment review functionality and protected PDF retrieval. The consultant passcode is evaluated server-side and is not shipped to the frontend.
+
+![RACBCONSULTING MVP consultant assessment manager](../evidence/racbconsulting-mvp/Consultant%20Portal%20demo.png)
+
+*Sanitized authenticated consultant portal using demo data, showing assessment search, lifecycle states, review controls, and internal management actions without exposing real prospect records.*
 
 ### Prospect authority
 
@@ -150,6 +166,10 @@ The implementation also distinguishes measured/calculated findings from proposed
 
 This prevents presentation language from silently turning assumptions into verified business findings.
 
+**Supporting evidence:** [Sanitized demo Executive Diagnostic & Strategic Advisory Proposal](../evidence/racbconsulting-mvp/RACBCONSULTING-Proposal-elite-flow-hvac-plumbing-0dda5e89.pdf)
+
+The published proposal artifact uses demo data and demonstrates the complete deterministic output produced from an assessment without exposing real customer information.
+
 ## Scheduling and CRM integration boundary
 
 The MVP provides a booking handoff to the production scheduling service.
@@ -166,6 +186,10 @@ This boundary is intentionally documented because:
 - operational automation can be evidenced without misrepresenting repository ownership.
 
 ## Validation evidence
+
+![RACBCONSULTING MVP automated validation evidence](../evidence/racbconsulting-mvp/Validation%20evidence.png)
+
+*Sanitized validation evidence showing 66/66 backend tests passed, 27/27 frontend tests passed, zero failures, and a successful production frontend build.*
 
 ### Backend
 
