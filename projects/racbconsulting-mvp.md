@@ -8,12 +8,12 @@
 | Implementation repository | Private |
 | Remediation baseline | `79ec4df` — MVP Remediation Sprint 001 |
 | Primary capability | Application Engineering |
-| Secondary capabilities | Workflow Automation & Integration · Technical Operations · Security Remediation |
+| Secondary capability | Workflow Automation & Integration |
+| Deployment status | Production deployed |
 | Frontend | Vite + vanilla JavaScript SPA |
 | Backend | Node.js + Express |
 | Persistence | PostgreSQL |
 | Deployment model | Static frontend hosting + containerized backend behind HTTPS reverse proxy |
-| Production services | `mvp.racbconsulting.com` · `api.racbconsulting.com` · `schedule.racbconsulting.com` |
 
 ## Overview
 
@@ -23,6 +23,25 @@ The implementation repository remains private. This page publishes sanitized arc
 
 The current public case is anchored to **MVP Remediation Sprint 001**, completed and deployed at commit `79ec4df`.
 
+## The problem
+
+A business assessment application can appear operational while still containing important authorization, data-integrity, deployment, or workflow-boundary weaknesses.
+
+Representative risks include:
+
+- client-side secrets or privileged access controls;
+- identifiers being treated as authorization;
+- consultant and prospect authority becoming conflated;
+- proposal actions being accepted without assessment-bound authorization;
+- protected documents being retrievable without appropriate access control;
+- deterministic business calculations being presented as if they were AI-generated findings;
+- repository documentation overstating what external systems the application itself implements;
+- successful implementation being mistaken for validated production behavior.
+
+Sprint 001 addressed these issues around a stricter operating principle:
+
+**Implementation ≠ Validation. Identifier ≠ Credential. Capability ≠ Authority.**
+
 ## Business workflow
 
 ```mermaid
@@ -31,7 +50,7 @@ flowchart LR
     M --> A[Assessment + Proposal]
     A --> D{Prospect Decision}
     A --> S[Book Executive Review]
-    S --> SCH[schedule.racbconsulting.com]
+    S --> SCH[Scheduling Service]
     SCH --> N[Existing n8n Workflow]
     N --> T[Twenty CRM Lead]
     C[Consultant] --> CP[Authenticated Consultant Portal]
@@ -40,9 +59,9 @@ flowchart LR
 
 The scheduling-to-CRM automation is an existing operational integration outside the MVP repository:
 
-**MVP → `schedule.racbconsulting.com` → prospect books → existing n8n workflow → lead created in Twenty CRM.**
+**MVP → scheduling service → prospect books → existing n8n workflow → lead created in Twenty CRM.**
 
-The MVP does **not** implement a direct Twenty CRM integration, and the repository does not contain the external n8n workflow. The public evidence therefore treats application implementation and external operational integration as separate evidence classes.
+The MVP does **not** implement a direct Twenty CRM integration, and the repository does not contain the external n8n workflow. Application implementation and external operational integration are therefore treated as separate evidence classes.
 
 ## Application architecture
 
@@ -131,13 +150,7 @@ A successful assessment submission issues a short-lived signed token bound to th
 
 The prospect token does not grant consultant access and cannot authorize another assessment.
 
-### Deliberate boundary
-
 The architecture does not treat possession of an assessment identifier as authorization.
-
-This distinction is central to the remediation:
-
-**Identifier ≠ Credential. Capability ≠ Authority.**
 
 ## Proposal generation
 
@@ -151,7 +164,7 @@ This prevents presentation language from silently turning assumptions into verif
 
 ## Scheduling and CRM integration boundary
 
-The MVP provides a booking handoff to `schedule.racbconsulting.com`.
+The MVP provides a booking handoff to the production scheduling service.
 
 The current user interface opens the scheduling service; the MVP itself does not create or confirm an appointment in the application database.
 
@@ -195,20 +208,6 @@ After deployment:
 - a real authenticated `/api/assessments` request returned HTTP 200 after credential rotation.
 
 These checks establish deployment verification for the remediated baseline. They do not imply exhaustive production certification of every external dependency or every future runtime condition.
-
-## Implementation vs. validation
-
-This case deliberately separates what exists from what was independently exercised.
-
-| Evidence class | What it establishes |
-|---|---|
-| Verified implementation | Source and configuration in the private repository represent the documented application and authorization design |
-| Local validation | Automated tests and build checks exercised repository behavior locally |
-| Production deployment verification | The remediated frontend/backend baseline was deployed and selected production behavior was exercised successfully |
-| Operational integration | The live scheduling service hands booked appointments to an existing n8n workflow that creates leads in Twenty CRM |
-| Future work | Lead Identity + Assessment Lifecycle improvements are planned for Sprint 002 and are not represented as current capability |
-
-**Implementation ≠ Validation. Deployment ≠ exhaustive certification.**
 
 ## Verified technology profile
 
@@ -254,6 +253,8 @@ This project provides evidence of capability in:
 
 ## Deliberate boundaries
 
+RACBCONSULTING MVP is not presented as a complete CRM, autonomous AI consulting system, or externally certified security platform.
+
 The following are **not** claimed as current MVP capabilities:
 
 - direct MVP-to-Twenty CRM integration;
@@ -288,26 +289,15 @@ This is **planned work only**. It was intentionally excluded from Sprint 001 so 
 
 ## Disclosure boundary
 
-The implementation repository is intentionally private.
+The implementation repository is intentionally private. This Technical Evidence Center does not publish production credentials, database passwords, consultant authentication material, prospect or customer PII, private assessment records, sensitive infrastructure details, private n8n credentials, CRM data, or complete proprietary implementation source.
 
-This Technical Evidence Center does not publish:
-
-- production credentials or secrets;
-- database passwords;
-- consultant passcodes or signing secrets;
-- prospect or customer PII;
-- private assessment records;
-- sensitive infrastructure coordinates;
-- complete proprietary source code;
-- private n8n workflow credentials or CRM data.
-
-Public architecture and evidence are sanitized from verified implementation and deployment evidence.
+Architecture presented here is reconstructed and sanitized from verified implementation and deployment evidence.
 
 ## Interested in this architecture?
 
-RACBCONSULTING MVP demonstrates the application-engineering side of RACBCONSULTING's broader operations architecture: governed intake, deterministic decision support, controlled authorization, scheduling handoff, automation, and CRM continuity across multiple systems.
+RACBCONSULTING MVP is an internal RACBCONSULTING production application, not an open-source application release.
 
-Organizations evaluating technical operations, AI-enabled business systems, workflow automation, application remediation, or governed integration architecture may contact RACBCONSULTING for implementation or technical review work.
+Organizations exploring secure business intake systems, assessment and proposal applications, workflow automation, CRM handoffs, application remediation, or customized operational platforms may contact RACBCONSULTING to discuss architecture, implementation, integration, or a guided technical review.
 
 ---
 
