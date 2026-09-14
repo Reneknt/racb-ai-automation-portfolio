@@ -31,3 +31,9 @@ Human-governed AI operations cockpit for task control, deterministic routing, go
 Version-controlled infrastructure platform for RACBCONSULTING, currently anchored by the RAEN-01 node and combining containerized services, secure service publication, observability, and governed host-level AI execution tooling.
 
 **Evidence:** Verified Implementation + Runtime Correlation + Documentation Governance. **Maturity:** Validated Infrastructure Platform.
+
+### [RACBCONSULTING MVP](./racbconsulting-mvp.md)
+
+Production-deployed executive assessment and proposal platform with separated consultant/prospect authorization, assessment-bound workflow controls, deterministic proposal generation, and an operational scheduling-to-CRM handoff.
+
+**Evidence:** Verified Implementation + Local Validation + Production Deployment Verification.
