@@ -6,7 +6,6 @@
 |---|---|
 | Evidence level | **Verified Implementation + Local Validation + Production Deployment Verification** |
 | Implementation repository | Private |
-| Remediation baseline | `79ec4df` — MVP Remediation Sprint 001 |
 | Primary capability | Application Engineering |
 | Secondary capability | Workflow Automation & Integration |
 | Deployment status | Production deployed |
@@ -19,9 +18,7 @@
 
 RACBCONSULTING MVP is a production-deployed executive assessment and proposal application used to guide a prospect through a bilingual discovery workflow, persist assessment data, generate a deterministic proposal and PDF, capture controlled prospect decisions, and provide an authenticated consultant review surface.
 
-The implementation repository remains private. This page publishes sanitized architecture, remediation scope, validation results, operational integration boundaries, and deployment evidence without exposing credentials, prospect data, private infrastructure details, or proprietary source code.
-
-The current public case is anchored to **MVP Remediation Sprint 001**, completed and deployed at commit `79ec4df`.
+The implementation repository remains private. This page publishes sanitized architecture, security and correctness controls, validation results, operational integration boundaries, and deployment evidence without exposing credentials, prospect data, private infrastructure details, or proprietary source code.
 
 ## The problem
 
@@ -38,7 +35,7 @@ Representative risks include:
 - repository documentation overstating what external systems the application itself implements;
 - successful implementation being mistaken for validated production behavior.
 
-Sprint 001 addressed these issues around a stricter operating principle:
+The application was hardened around a stricter operating principle:
 
 **Implementation ≠ Validation. Identifier ≠ Credential. Capability ≠ Authority.**
 
@@ -97,35 +94,26 @@ flowchart TD
 - optional SMTP notifications;
 - CORS, security headers, and rate limiting.
 
-## Remediation Sprint 001
+## Security and correctness controls
 
-Sprint 001 was a focused security and correctness remediation rather than a product-expansion sprint.
+The production implementation includes several controls introduced to strengthen role separation, authorization, and data integrity:
 
-Verified remediation included:
-
-- consultant and prospect authorization separated by role and authority;
-- consultant passcode moved to server-side configuration;
-- signed consultant sessions introduced;
-- prospect proposal tokens separated from consultant tokens;
-- prospect tokens bound to a single assessment;
-- prospect action endpoints restricted to the assessment-bound prospect token;
-- consultant sessions prevented from recording a decision as the prospect;
-- proposal PDF access protected by consultant or assessment-bound prospect authorization;
-- assessment UUID knowledge alone no longer authorizes reads or workflow actions;
-- request validation and allowed-field controls hardened;
-- calculation/report parity covered by tests;
-- production scheduling URL configured as a public frontend build value;
-- deployment documentation corrected to distinguish repository-verifiable facts from operator-managed infrastructure.
-
-A PostgreSQL credential exposed during remediation operations was subsequently rotated, and the backend was recreated with the new credential. A post-rotation production query to `/api/assessments` returned HTTP 200.
-
-A pre-remediation backend image snapshot was retained as an explicit rollback artifact:
-
-`racb-backend:pre-remediation-2026-09-13`
+- consultant and prospect authorization are separated by role and authority;
+- consultant authentication is evaluated server-side;
+- consultant sessions use signed tokens;
+- prospect proposal tokens are separate from consultant tokens;
+- prospect tokens are bound to a single assessment;
+- prospect action endpoints require the assessment-bound prospect token;
+- consultant sessions cannot record a decision as the prospect;
+- proposal PDF access requires consultant or assessment-bound prospect authorization;
+- assessment identifier knowledge alone does not authorize reads or workflow actions;
+- request validation and allowed-field controls reduce unintended data mutation;
+- calculation/report parity is covered by automated tests;
+- production configuration separates public frontend settings from server-side secrets.
 
 ## Authorization model
 
-The remediated authorization design separates **capability** from **authority**.
+The authorization design separates **capability** from **authority**.
 
 ```mermaid
 flowchart TD
@@ -191,23 +179,15 @@ The backend validation suite covers API behavior, authentication, authorization,
 
 The frontend suite covers areas including escaping, configuration, calculations, and source-level guards.
 
-### Build and E2E
+### Build and end-to-end validation
 
-The production frontend build and remediation E2E validation completed successfully before deployment.
+The production frontend build and end-to-end validation completed successfully before deployment.
 
 ### Production verification
 
-After deployment:
+Selected production behavior was exercised successfully after deployment, including consultant authentication, frontend behavior, backend service operation, and authenticated assessment retrieval.
 
-- the remediated backend was running from the new containerized deployment;
-- the remediated frontend from commit `79ec4df` was deployed to static hosting;
-- consultant login was verified in production;
-- frontend behavior was verified in production;
-- the PostgreSQL credential was rotated after exposure during remediation;
-- the backend was recreated with the rotated credential;
-- a real authenticated `/api/assessments` request returned HTTP 200 after credential rotation.
-
-These checks establish deployment verification for the remediated baseline. They do not imply exhaustive production certification of every external dependency or every future runtime condition.
+These checks establish deployment verification for the documented production implementation. They do not imply exhaustive production certification of every external dependency or every future runtime condition.
 
 ## Verified technology profile
 
@@ -222,9 +202,9 @@ These checks establish deployment verification for the remediated baseline. They
 | Authentication | Server-side passcode + HMAC-signed tokens |
 | Prospect authorization | Short-lived signed assessment-bound token |
 | HTTP controls | CORS, security headers, rate limiting, validation |
-| Backend deployment | Docker container on RACBCONSULTING VPS |
-| Reverse proxy / TLS | Caddy-operated production edge |
-| Frontend deployment | Static hosting / cPanel |
+| Backend deployment | Docker container on RACBCONSULTING infrastructure |
+| Reverse proxy / TLS | HTTPS reverse-proxy edge |
+| Frontend deployment | Static hosting |
 | Scheduling | External scheduling service |
 | Downstream automation | Existing n8n workflow |
 | CRM | Twenty CRM |
@@ -234,7 +214,7 @@ These checks establish deployment verification for the remediated baseline. They
 
 This project provides evidence of capability in:
 
-- full-stack application remediation;
+- full-stack application engineering and remediation;
 - REST API engineering;
 - browser-to-API authorization design;
 - role/authority separation;
@@ -245,8 +225,6 @@ This project provides evidence of capability in:
 - security-oriented request validation;
 - Dockerized backend deployment;
 - static frontend deployment;
-- production credential rotation and service recreation;
-- rollback preservation;
 - automated backend/frontend validation;
 - production verification after deployment;
 - integration-boundary documentation across application, scheduler, n8n, and CRM systems.
@@ -267,25 +245,15 @@ The following are **not** claimed as current MVP capabilities:
 - server-side token revocation;
 - complete assessment lifecycle recovery for abandoned or incomplete prospect sessions.
 
-## Sprint 002 — deferred improvement
-
-A future remediation/product sprint has been identified for **Lead Identity + Assessment Lifecycle**.
-
-The intended direction is that a prospect should not begin an assessment without a usable identity anchor such as name plus valid email and/or phone, and incomplete assessments should preserve lifecycle state so they can be resumed or deliberately closed.
-
-This is **planned work only**. It was intentionally excluded from Sprint 001 so that the completed remediation could be validated, deployed, and documented without uncontrolled scope expansion.
-
 ## Evidence classification
 
-**VERIFIED IMPLEMENTATION** — application source, authorization logic, validation, deterministic calculations, PDF generation, deployment configuration, and documentation are represented in the private implementation repository at the remediated baseline.
+**VERIFIED IMPLEMENTATION** — application source, authorization logic, validation, deterministic calculations, PDF generation, deployment configuration, and documentation are represented in the private implementation repository.
 
-**LOCAL VALIDATION** — 66/66 backend tests, 27/27 frontend tests, frontend build, and remediation E2E checks were completed successfully.
+**LOCAL VALIDATION** — 66/66 backend tests, 27/27 frontend tests, frontend build, and end-to-end checks were completed successfully.
 
-**PRODUCTION DEPLOYMENT VERIFICATION** — the remediated backend and frontend were deployed; consultant login and frontend behavior were verified; the database credential was rotated and the backend recreated; a post-rotation authenticated assessments query returned HTTP 200.
+**PRODUCTION DEPLOYMENT VERIFICATION** — the production frontend and backend were deployed and selected authenticated application behavior was exercised successfully.
 
 **OPERATIONAL INTEGRATION** — the production scheduling service feeds booked appointments into an existing n8n workflow that creates leads in Twenty CRM. This automation is intentionally documented as an external operational integration rather than source code contained in the MVP repository.
-
-**PLANNED** — Lead Identity + Assessment Lifecycle belongs to Sprint 002 and is not included in the current verified baseline.
 
 ## Disclosure boundary
 
