@@ -37,3 +37,9 @@ Version-controlled infrastructure platform for RACBCONSULTING, currently anchore
 Production-deployed executive assessment and proposal platform with separated consultant/prospect authorization, assessment-bound workflow controls, deterministic proposal generation, and an operational scheduling-to-CRM handoff.
 
 **Evidence:** Verified Implementation + Local Validation + Production Deployment Verification.
+
+### [AgentConfig Auditor](./agentconfig-auditor.md)
+
+Deterministic preflight auditing for AI-agent configuration, with structured findings for required fields, model settings, and explicit tool-permission declarations.
+
+**Evidence:** Verified Implementation + Test-Backed Validation.
