@@ -1,16 +1,16 @@
 # Turno
 
-> **Commissioned multi-tenant appointment platform under active development for a private client, combining deterministic scheduling, tenant isolation, conversational assistance, messaging compliance, payments, and background operations.**
+> **Commissioned multi-tenant operational SaaS for appointment-based businesses — combining scheduling, conversational assistance, deterministic authority, consent, payments, tenant isolation, and background operations in one controlled system.**
 
 | Attribute | Verified status |
 |---|---|
-| Evidence level | **Verified Implementation + Test-Backed Validation** |
+| Evidence level | **Verified Implementation + Test-Backed Validation + Pre-Production Application Evidence** |
 | Maturity | **Commissioned Project — Active Development / Pre-Production** |
 | Project context | Private commissioned multi-tenant SaaS application |
 | Implementation repository | Private |
 | Application version | `0.1.0` |
-| Primary capability | Application Engineering |
-| Secondary capability | Conversational AI |
+| Primary capability | Application Engineering / Operational Systems |
+| Secondary capabilities | Conversational AI / SaaS Architecture / Automation & Integration |
 | Architecture | TypeScript monorepo: web application + worker + shared packages |
 | Web application | Next.js / React |
 | Data layer | PostgreSQL 16 + Drizzle ORM + migrations + Row-Level Security |
@@ -20,156 +20,216 @@
 
 ## Overview
 
-Turno is a commissioned multi-tenant appointment-management SaaS application currently under active development and pre-production testing for a private client.
+Turno is a commissioned multi-tenant SaaS application under active development and pre-production testing for a private client.
 
-The implementation goes beyond a calendar interface. It combines appointment scheduling, customer management, public booking, multi-channel conversations, human handoff, payments, background jobs, tenant-aware database controls, messaging consent, and a constrained conversational assistant inside one application architecture.
+It is easy to describe Turno as an appointment application with an AI assistant. That description misses the engineering problem the system actually solves.
 
-The project is intentionally classified as **implemented and extensively validated, but still pre-production**. Repository deployment documentation explicitly separates what is already built from the external-service and production checks that still require real accounts and a live environment. No client identity or private commercial terms are disclosed in this public evidence set.
+**Turno is an operational control system for appointment-based businesses.**
 
-## The problem
+The agenda is only one visible surface of a larger state machine. Underneath it, Turno coordinates services, professionals, customers, availability, service segments, appointments, conversations, messaging consent, assistant/human authority, deposits, queues, reminders, and tenant boundaries. Those concerns do not merely coexist: the system has to decide which action is allowed, who may perform it, what must remain deterministic, what may be delegated to an AI model, and what should happen when a dependency or authority boundary is unavailable.
 
-Appointment businesses operate across several systems that can fail independently: calendars, customer records, reminders, messaging channels, deposits, staff access, and customer consent.
+The implementation therefore treats correctness as an architectural concern rather than a UI convention.
 
-The harder engineering problem is not simply accepting a booking. It is preserving correct business behavior when these concerns interact.
+![Turno product overview](../evidence/turno/turno-product-overview.png)
 
-Examples include:
+*Pre-production application evidence. The product surface frames Turno around operational gaps in an appointment business and explicitly communicates authority, consent, and payment boundaries.*
 
-- preventing double booking under concurrent requests;
-- representing services that contain productive and non-blocking time;
-- isolating data between independent businesses;
-- preventing an AI assistant from directly mutating appointment state;
-- preserving opt-out rights even when a human operator takes over a conversation;
-- ensuring queued reminders are not silently evicted;
-- handling payment events across platform and connected-account webhook boundaries;
-- preventing provider credentials from leaking back into the management UI.
+## The operational problem
 
-Turno addresses those problems through explicit application, database, queue, and authorization boundaries rather than relying on conversational behavior or UI convention alone.
+Appointment-based businesses lose capacity in ways a conventional calendar does not understand well. A cancellation creates recoverable capacity. A long service may contain periods during which the professional can perform other work. A customer may disappear for months. A conversation may begin with an assistant and require a person. A booking may require a deposit that cannot safely be accepted until payment capability exists.
 
-**Conversation can propose an action. Deterministic application logic owns the state change.**
+At the same time, the system has to preserve invariants that are less visible but more important:
 
-## System architecture
+- two concurrent requests must not create an invalid double booking;
+- tenant data must remain isolated even if an application query is wrong;
+- a language model must not convert conversational confidence into database authority;
+- a human takeover must silence the assistant without disabling mandatory consent handling;
+- provider retries must not create duplicate operational actions;
+- a required payment capability must fail closed rather than allow an invalid booking path;
+- asynchronous reminders and outbound work must survive normal queue pressure;
+- external credentials must remain server-side;
+- degradation of the AI layer must not necessarily make the operational system unusable.
+
+This leads to the core Turno design principle:
+
+> **Conversation interprets intent. Deterministic systems own authority and state.**
+
+## Turno as a controlled operating system
 
 ```mermaid
 flowchart TB
-    CLIENT[Customer / Staff] --> WEB[Next.js Web Application]
-    CHANNELS[WhatsApp / Telegram / SMS] --> WEB
-    WEB --> DB[(PostgreSQL 16)]
-    WEB --> REDIS[(Redis 7)]
-    REDIS --> WORKER[Background Worker]
+    CUSTOMER[Customer] --> CHANNEL[Web / Messaging Channel]
+    STAFF[Staff] --> WEB[Operations Interface]
+    CHANNEL --> INBOUND[Inbound Processing]
+    INBOUND --> RULES[Deterministic Guards]
+    RULES -->|free text allowed| AGENT[Conversational Assistant]
+    RULES -->|button / keyword / control| EXEC[Deterministic Execution]
+    AGENT --> TOOLS[Constrained Tools]
+    TOOLS --> PROPOSAL[Proposal / Explicit Action]
+    PROPOSAL --> EXEC
+    WEB --> EXEC
+    EXEC --> SCHEDULE[Scheduling Engine]
+    EXEC --> CONSENT[Consent & Send Authority]
+    EXEC --> PAYMENTS[Payment Guards]
+    EXEC --> QUEUE[Redis / BullMQ]
+    SCHEDULE --> DB[(PostgreSQL + RLS)]
+    CONSENT --> DB
+    PAYMENTS --> DB
+    QUEUE --> WORKER[Background Worker]
     WORKER --> DB
-    WEB --> AI[Conversational Assistant]
-    AI --> PROPOSAL[Proposed Action]
-    PROPOSAL --> CONFIRM[Explicit Customer Confirmation]
-    CONFIRM --> LOGIC[Deterministic Application Logic]
-    LOGIC --> DB
-    WEB --> PAYMENTS[Stripe / Stripe Connect]
 ```
 
-The repository is organized as a TypeScript monorepo with separate `web` and `worker` applications plus shared workspace packages.
+The important boundary is not between “AI” and “non-AI” features. It is between **interpretation and authority**.
 
-## Multi-tenant data isolation
+The model can understand language, inspect allowed business context, check availability, and prepare proposals. State-changing actions remain constrained by application logic, confirmation flows, permissions, consent, and database rules.
 
-Tenant isolation is enforced at the database layer rather than being left only to application queries.
+## Scheduling is business-state modeling
 
-The implementation uses PostgreSQL Row-Level Security across tenant-scoped data and separates database responsibilities through dedicated roles. Repository validation has exercised tenant-aware database behavior, including RLS-sensitive paths and security-focused suites.
+Turno does not model every service as one indivisible block of occupied time.
 
-This is important because a multi-tenant application can appear correct at the UI layer while still exposing cross-tenant data if the database connection operates with excessive authority.
+Services can contain operational segments. A service such as a color treatment can include active work, passive processing time, and another active stage. That allows the scheduling model to represent capacity that a simple start/end calendar would incorrectly mark as unavailable.
 
-The deployment procedure therefore treats the application database role as a production invariant: using the wrong role can bypass the intended RLS boundary without producing an obvious application failure.
+This matters because utilization is not just a visual problem. The same availability model must remain valid across the management interface, public booking, and conversational paths, while database constraints protect against conflicting reservations under concurrency.
 
-## Scheduling as business-state modeling
+The pre-production interface makes that operational state directly manipulable by staff:
 
-Turno models appointments as operational scheduling state rather than as a single naive start/end interval.
+![Turno scheduling and rescheduling](../evidence/turno/turno-scheduling-reschedule.png)
 
-The implementation supports service segments so that non-blocking service time does not unnecessarily occupy a professional's entire availability window. Database constraints are used to prevent conflicting reservations rather than relying only on a pre-insert availability check.
+*Authenticated pre-production agenda showing multiple professionals and appointments after interactive rescheduling.*
 
-This design addresses both utilization and concurrency: availability must remain correct even when multiple booking attempts occur close together.
+The accompanying motion evidence demonstrates the interaction rather than only the resulting state:
 
-## Conversational assistant with deterministic authority
+[**Watch pre-production visual rescheduling evidence (MP4)**](../evidence/turno/turno-visual-scheduled.mp4)
 
-Turno includes an AI-assisted conversational path, but the language model is not given unrestricted appointment authority.
+A staff operator can move an appointment visually to a different time slot. The significance is not the drag-and-drop gesture itself; it is that the UI is manipulating the same operational scheduling state governed by the application rather than maintaining a decorative calendar separate from business logic.
 
-The architecture separates:
+## AI assistance without AI ownership of the business
 
-1. conversation and intent handling;
-2. proposed actions;
-3. explicit customer confirmation;
-4. deterministic execution by application code.
+Turno's conversational architecture deliberately refuses to make the language model the final authority over operational state.
 
-The implementation history documents this principle directly: the model proposes; deterministic code executes after the customer confirms the action.
+The agent is given constrained tools for capabilities such as listing services, checking availability, preparing bookings, preparing cancellations or reschedules, joining a waitlist, requesting identity verification, and escalating to a human. The booking and rescheduling tools prepare actions; they do not directly perform the final state change.
 
-That boundary reduces the risk of treating generated language as authorization to modify business state.
+A conversational claim such as “I confirmed it” is therefore not equivalent to an authorized confirmation event.
 
-## Multi-channel conversation handling
+The inbound pipeline resolves deterministic controls before free text reaches the model. Consent keywords, actionable button payloads, SMS numbered replies, and human-takeover state are handled in code. Only after those gates does free-form language enter the agent path.
 
-The application contains management and adapter logic for WhatsApp, Telegram, and SMS concepts.
+This architecture produces a stronger invariant than prompt instructions alone:
 
-Verified implementation work includes:
+> **The model is useful where interpretation is valuable, but it is structurally prevented from becoming the sole source of authority.**
 
-- channel-management surfaces;
-- provider webhook routing;
-- encrypted provider credentials by business location;
-- prevention of credential values being returned to the browser;
-- unified conversation inbox behavior;
-- human takeover and return-to-assistant controls;
-- manual reply restrictions while the assistant owns the conversation;
-- continued processing of compliance-sensitive keywords and controls during human takeover.
+## Human and assistant authority are explicit states
 
-A recent corrective implementation also closed the SMS confirmation loop by resolving numbered SMS replies against the actionable choices contained in the outgoing message, with expiration and exact-match constraints.
+Turno does not treat human handoff as an informal instruction embedded in conversation history.
 
-## Human handoff without disabling compliance
+Conversation state records whether the assistant or a person currently owns the conversational turn. Before free text is sent to the model, the worker checks whether the assistant is allowed to reply. When a person has taken control, the assistant remains silent.
 
-Turno distinguishes **assistant authority** from **system obligations**.
+![Turno human takeover](../evidence/turno/turno-human-takeover.png)
 
-When a human takes control of a conversation, the assistant is silenced for ordinary responses. The system itself, however, continues to process controls that must remain available independently of the assistant, including messaging opt-out behavior.
+*Pre-production conversation state after staff takeover. The interface explicitly identifies human ownership and states that the assistant is silent.*
 
-Manual outbound replies also pass through the application's send-permission control rather than bypassing it simply because a human initiated the message.
-
-This creates an important operational rule:
+The handoff is visible to the operator and reversible. More importantly, it does not suspend system obligations. Opt-out handling and deterministic controls continue even while the assistant is silent.
 
 **Human takeover ≠ compliance bypass.**
 
-## Public booking path
+The broader conversation flow is also visible in the application evidence:
 
-The repository includes a public booking flow for the end customer.
+![Turno conversation handoff](../evidence/turno/turno-conversation-handoff.png)
 
-The implemented path covers service selection, date/time selection, customer details, explicit consent, and creation of the appointment in the business schedule without requiring an authenticated customer session.
+*Pre-production conversation evidence showing an assistant-to-human workflow and the staff reply surface. This image demonstrates the application state and handoff UX; it is not presented as proof of a live external AI-provider session.*
 
-The public flow reuses the same availability model used by the management application and conversational assistant rather than implementing a separate scheduling engine.
+## Deterministic controls before the model
 
-## Payments and deposits
+Several Turno controls intentionally live outside the prompt because “the model will usually obey” is not an operational guarantee.
 
-Turno includes Stripe integration concepts for subscriptions and Stripe Connect for business-level payment flows.
+The worker path establishes an order of authority before an agent call:
 
-The documented design uses direct connected-account charges for appointment deposits so that the funds are not modeled as passing through Turno itself.
+1. compliance-sensitive keywords are handled deterministically;
+2. actionable button and numbered-message controls are resolved in code;
+3. human takeover can prevent the model from seeing or answering the message;
+4. tenant token budget can degrade the experience without crashing the workflow;
+5. repeated unresolved agent turns can force escalation to a person.
 
-The deployment documentation also distinguishes the platform Stripe webhook registration from the Connect webhook registration. This matters because a successful payment alone is insufficient if the application never receives the event needed to reconcile the deposit state.
+At the configured conversation-call threshold, Turno stops assuming another model turn will solve the problem and hands the conversation to a human. Escalation is detected from the agent outcome/tool use rather than by searching generated text for a phrase.
 
-No live-payment or production financial-processing claim is made in this case study.
+The same philosophy applies to outbound communication: agent replies are persisted and sent through the normal queue and send-permission path instead of bypassing consent enforcement.
 
-## Background jobs and reliability controls
+## Graceful degradation is part of the design
 
-The worker architecture uses Redis and queue-backed background processing for asynchronous operational work.
+The AI layer is not treated as synonymous with application availability.
 
-The deployment design requires Redis `noeviction` behavior because silent eviction of queued jobs could otherwise cause reminders or other work to disappear under memory pressure without an application-level failure.
+If the tenant's conversational token budget is exhausted, the agent path can degrade to a deterministic menu rather than turning the entire customer workflow into an error. If the system cannot safely load the required business context, it returns a bounded fallback instead of inventing schedule information.
 
-Turno also contains backup and restore-verification scripts, with repository documentation describing a daily database dump and a scheduled restore check against a disposable database as part of the intended production operating model.
+That distinction matters operationally:
 
-These are implemented operational controls, but they are not presented as production-running evidence because Turno remains pre-production.
+**AI capability can degrade while core business controls remain deterministic.**
 
-## Validation evidence
+## Consent and messaging are system responsibilities
 
-The repository defines separate validation commands for:
+Turno treats messaging consent as application state, not merely conversational etiquette.
 
-- unit tests;
-- integration tests;
-- security tests;
-- end-to-end tests;
-- linting;
-- TypeScript type checking;
-- production build.
+Inbound processing records consent context, opt-out keywords are classified before the model, and outbound sends pass through permission controls. A human operator does not receive a privileged path around those rules simply because the response is manually initiated.
 
-The latest verified implementation checkpoint records:
+Provider retry behavior is also treated as a correctness problem. Inbound messages have durable idempotency protection so that a late duplicate provider event cannot silently become a second operational action.
+
+For SMS, interactive choices degrade to numbered text responses. Those replies are resolved deterministically against the actionable choices that were actually sent rather than asking the model to infer what a bare “1” probably means.
+
+This is a recurring Turno pattern: **channel limitations are adapted at the boundary instead of leaking ambiguity into business logic.**
+
+## Payment capability fails closed
+
+A booking workflow that requires a deposit should not silently continue when payment capability is unavailable.
+
+Turno exposes that dependency directly in the pre-production application:
+
+![Turno deposit guard](../evidence/turno/turno-deposit-guard.png)
+
+*Pre-production guard preventing a deposit-required booking when payment capability has not been connected for the business.*
+
+This is more than an error message. It demonstrates the intended operational behavior: an unmet financial prerequisite blocks the dependent state transition instead of creating an appointment whose required payment state cannot be satisfied.
+
+The repository also contains Stripe and Stripe Connect integration concepts, including separation between platform and connected-account webhook concerns. No live-payment claim is made from this evidence.
+
+## Multi-tenant isolation is enforced below the UI
+
+Turno is designed for multiple independent businesses, so tenant isolation cannot depend solely on every developer remembering to add a tenant filter to every query.
+
+PostgreSQL Row-Level Security is part of the data boundary. Tenant-aware database access and dedicated role responsibilities are validated in security-focused repository suites.
+
+That choice protects against a particularly dangerous class of SaaS failure: an application that appears correct in normal UI testing while an over-privileged database connection can still access another tenant's records.
+
+The database role is therefore an operational invariant, not merely deployment configuration.
+
+## Identity and staff access
+
+The staff-facing application uses a passwordless email-code flow rather than a conventional stored-password UX.
+
+![Turno passwordless authentication](../evidence/turno/turno-passwordless-auth.png)
+
+*Pre-production passwordless authentication surface with six-digit code entry and bounded expiration messaging.*
+
+Repository implementation adds controls behind that surface, including hashed one-time codes, expiration, attempt limits, single-use behavior, and generic invalid-code handling intended to avoid account-enumeration leakage.
+
+The screenshot demonstrates the application boundary; the deeper controls are implementation evidence rather than claims inferred from the image.
+
+## Background operations and queue-backed work
+
+Turno separates interactive web requests from asynchronous operational work through Redis, BullMQ, and a dedicated worker application.
+
+That architecture supports outbound messaging, reminders, agent processing, and other work that should not remain coupled to a browser request lifecycle. Queue reliability is treated explicitly in deployment design: Redis is expected to use `noeviction` behavior because silently evicting queued jobs can turn memory pressure into missing reminders or missing operational work without an obvious application failure.
+
+Backup and restore-verification scripts also exist in the repository. They are implementation and deployment-design evidence, not a claim that production backup operations are currently running.
+
+## One scheduling engine, multiple operational surfaces
+
+Turno's management UI, public booking path, and conversational workflows are not intended to become independent scheduling systems with subtly different rules.
+
+The public booking flow covers service selection, date/time selection, customer details, consent, and appointment creation without requiring an authenticated customer account. Conversational tools query the same business scheduling model. Staff operate on the resulting state through the management application.
+
+That convergence is important because every duplicated scheduling engine creates another place for availability, deposits, cancellation rules, or staff constraints to diverge.
+
+## Validation depth
+
+The latest verified implementation checkpoint records **877 passing tests** across four distinct validation layers:
 
 | Validation layer | Recorded result |
 |---|---:|
@@ -177,31 +237,13 @@ The latest verified implementation checkpoint records:
 | Integration tests | **251 passed** |
 | Security tests | **163 passed** |
 | End-to-end tests | **75 passed** |
+| **Total** | **877 passed** |
 
-Earlier full-system checkpoints also record successful lint, typecheck, and production build validation.
+The repository also defines linting, TypeScript type checking, and production-build validation, with earlier full-system checkpoints recording successful runs.
 
-The repository deliberately serializes integration and security execution across packages because the suites share one PostgreSQL and one Redis instance. That is an engineering constraint of the validation environment, not a cosmetic test-runner setting.
+The test organization itself reflects system architecture. Integration and security suites are deliberately serialized where packages share PostgreSQL and Redis infrastructure, avoiding false confidence from test parallelism that would corrupt shared validation state.
 
-## Deployment design — not deployment evidence
-
-Turno contains a detailed Railway deployment design consisting of four services in one project:
-
-| Service | Planned role |
-|---|---|
-| `web` | Next.js application |
-| `worker` | Queue-processing worker |
-| `postgres` | PostgreSQL 16 |
-| `redis` | Redis 7 |
-
-The documentation also defines intended `turno.app` and wildcard subdomain routing, provider webhooks, database bootstrap roles, migration sequencing, production environment variables, backup verification, and post-deployment checks.
-
-However, the same deployment document explicitly identifies checks that require real external accounts and a live environment.
-
-Therefore:
-
-**Deployment configuration ≠ production deployment.**
-
-This case study does not claim that Turno is currently running in production.
+The security suite is particularly relevant to Turno because many of its most important claims are negative invariants: one tenant must not see another tenant, a model must not acquire unauthorized mutation capability, consent must not be bypassed, and identity controls must fail safely.
 
 ## Verified technology profile
 
@@ -225,63 +267,89 @@ This case study does not claim that Turno is currently running in production.
 | Deployment configuration | Railway |
 | Validation | Unit + integration + security + E2E + lint + typecheck + build |
 
-## Capabilities demonstrated
+## What this project demonstrates
 
-Turno provides evidence of capability in:
+Turno provides evidence of engineering capability across several layers at once:
 
-- commissioned application engineering;
-- multi-tenant SaaS architecture;
-- TypeScript monorepo engineering;
-- Next.js application development;
-- PostgreSQL schema and migration design;
-- database-level tenant isolation with RLS;
-- concurrency-aware appointment scheduling;
-- background-worker and queue architecture;
-- AI-assisted conversational workflow design;
-- deterministic authority boundaries around LLM actions;
-- multi-channel messaging integration;
-- human/assistant handoff design;
-- messaging consent and opt-out enforcement;
-- public booking workflow engineering;
-- payment and webhook architecture;
-- security-focused testing;
-- integration and end-to-end validation;
-- deployment and recovery planning.
+- **Operational modeling** — translating real appointment-business behavior into explicit system state rather than treating the product as CRUD around a calendar.
+- **Multi-tenant SaaS architecture** — tenant-aware application paths backed by PostgreSQL RLS and role boundaries.
+- **Concurrency-aware scheduling** — availability and conflict protection designed for state correctness, not only UI convenience.
+- **Human/AI authority design** — explicit ownership of conversation state, constrained agent tools, deterministic execution, and reversible handoff.
+- **AI safety by architecture** — critical controls enforced before or outside the model instead of depending on prompt obedience.
+- **Messaging compliance engineering** — consent, opt-out, send authorization, channel-specific controls, and durable idempotency.
+- **Failure-safe product behavior** — deposit prerequisites and other unavailable capabilities block dependent operations instead of producing inconsistent state.
+- **Graceful AI degradation** — conversational capability can fall back while deterministic business paths remain available.
+- **Queue-backed operations** — asynchronous work separated from request/response paths with explicit reliability assumptions.
+- **Application security** — passwordless identity controls, credential boundaries, tenant isolation, and dedicated security validation.
+- **Full-stack product engineering** — authenticated operations UI, public customer paths, workers, database design, integrations, and deployment planning in one coherent system.
+- **Validation discipline** — 877 recorded passing tests across unit, integration, security, and E2E layers at the latest verified checkpoint.
+
+## Deployment design — not deployment evidence
+
+Turno contains a Railway deployment design with separate web, worker, PostgreSQL, and Redis services, plus intended domain routing, provider webhooks, database bootstrap roles, migration sequencing, environment configuration, backup verification, and post-deployment checks.
+
+The same documentation identifies checks that require real external accounts and a live environment.
+
+Therefore:
+
+> **Deployment configuration ≠ production deployment.**
+
+Turno is not presented here as a production-running SaaS.
+
+## Evidence map
+
+| Evidence artifact | What it supports | Classification |
+|---|---|---|
+| `turno-product-overview.png` | Product model, scheduling concept, visible operating boundaries | Pre-production application evidence |
+| `turno-scheduling-reschedule.png` | Multi-professional agenda and rescheduled appointment state | Pre-production application evidence |
+| `turno-visual-scheduled.mp4` | Direct visual manipulation of scheduling state | Pre-production runtime interaction evidence |
+| `turno-human-takeover.png` | Explicit human ownership and assistant-silent state | Pre-production application evidence |
+| `turno-conversation-handoff.png` | Conversation/handoff workflow surface | Pre-production application evidence |
+| `turno-deposit-guard.png` | Deposit-required booking blocked without payment capability | Pre-production guardrail evidence |
+| `turno-passwordless-auth.png` | Passwordless staff authentication UX | Pre-production application evidence |
+| Private implementation repository | Architecture, deterministic controls, RLS, queues, integrations, operational scripts | Verified implementation |
+| Repository validation checkpoints | Unit, integration, security, and E2E results | Test-backed validation |
 
 ## Deliberate boundaries
 
-Turno is not presented as a production-deployed SaaS or as proof of live external-provider operation. It remains a commissioned project under active development and pre-production validation.
+Turno is a commissioned project under active development and pre-production validation. The public evidence is intentionally strong about what has been verified and equally explicit about what has not.
 
-The following are not claimed by this evidence set:
+This evidence set does **not** claim:
 
 - active Railway production deployment;
-- live `turno.app` operation;
+- live public operation;
 - real customer tenants in production;
-- live WhatsApp, Telegram, Twilio, Stripe, R2, Resend, or Sentry provider validation;
-- live payment processing;
-- live backup execution in production;
+- live external-provider validation for WhatsApp, Telegram, Twilio, Stripe, R2, Resend, or Sentry;
+- live financial processing;
+- production backup execution;
 - production uptime, scale, conversion, revenue, or customer metrics;
 - exhaustive security certification.
 
+The screenshots and video are local/pre-production application evidence. Demo identities shown in the interface are test/demo data and are not presented as real customer activity.
+
 ## Evidence classification
 
-**VERIFIED IMPLEMENTATION** — the private repository contains the web application, worker, shared packages, database migrations, RLS controls, queue architecture, conversational logic, messaging adapters, public booking path, payment integration code, deployment configuration, and operational scripts described here.
+**VERIFIED IMPLEMENTATION** — the private repository contains the web application, worker, shared packages, database migrations, RLS controls, scheduling logic, queue architecture, constrained conversational tools, messaging adapters, consent enforcement, public booking path, payment integration code, deployment configuration, and operational scripts described here.
 
-**TEST-BACKED VALIDATION** — repository checkpoints record 388 unit, 251 integration, 163 security, and 75 end-to-end tests passing at the latest verified implementation state, with earlier checkpoints also recording successful lint, typecheck, and production build.
+**TEST-BACKED VALIDATION** — the latest verified checkpoint records 388 unit, 251 integration, 163 security, and 75 end-to-end tests passing: **877 tests in total**. Earlier checkpoints also record successful lint, typecheck, and production-build validation.
 
-**COMMISSIONED / PRE-PRODUCTION** — Turno is being developed as a commissioned SaaS application for a private client. The client identity and commercial terms remain private. Railway service configuration and deployment procedures exist, but live external-service and production-environment verification remain outside the current evidence boundary.
+**PRE-PRODUCTION APPLICATION EVIDENCE** — sanitized screenshots and motion evidence demonstrate the implemented application surface, interactive scheduling, human takeover state, payment guard, and passwordless access in a local/pre-production environment.
+
+**COMMISSIONED / PRE-PRODUCTION** — Turno is being developed for a private commissioning client. Client identity and commercial terms remain private. Deployment configuration exists, while live external-service and production-environment verification remain outside the current evidence boundary.
 
 ## Disclosure boundary
 
-The implementation repository remains private. The commissioning client is not identified, and no private commercial terms are disclosed. This Technical Evidence Center does not expose private credentials, encryption material, provider secrets, database connection strings, tenant/customer data, internal test fixtures containing sensitive values, or proprietary implementation details unnecessary for technical review.
+The implementation repository remains private. The commissioning client is not identified, and no private commercial terms are disclosed.
 
-Published evidence is limited to sanitized project context, architecture, verified implementation characteristics, validation results, and operational boundaries.
+The Technical Evidence Center does not expose credentials, encryption material, provider secrets, database connection strings, real tenant/customer data, or proprietary implementation details unnecessary for technical review. Public artifacts are sanitized and intentionally limited to evidence required to support the technical claims made here.
 
 ## Interested in this architecture?
 
-Turno is a private commissioned RACB application-engineering project currently under active development. It is not presented as an open-source application release or a currently deployed commercial service.
+Turno is a private commissioned RACB application-engineering project, not an open-source product release or a claim of a currently deployed commercial service.
 
-Organizations exploring multi-tenant scheduling platforms, conversational appointment workflows, deterministic AI authority boundaries, tenant-aware data architecture, multi-channel messaging, or queue-backed operational systems may contact RACBCONSULTING to discuss architecture, engineering, validation, or adaptation to related operational problems.
+The architecture demonstrates how appointment-driven operations can be modeled as a controlled system in which scheduling, conversations, AI assistance, human authority, consent, payments, tenant isolation, and asynchronous work share explicit operational boundaries.
+
+Organizations building scheduling-intensive SaaS, human-in-the-loop AI systems, multi-tenant operational platforms, conversational workflows, or systems where generated intent must remain separated from deterministic authority may contact RACBCONSULTING to discuss architecture, engineering, validation, or adaptation to related operational problems.
 
 ---
 
