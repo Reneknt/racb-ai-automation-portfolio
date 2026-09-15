@@ -1,12 +1,12 @@
 # Turno
 
-> **Commissioned multi-tenant appointment platform under active development for the Colombian salon and barbershop market, combining deterministic scheduling, tenant isolation, conversational assistance, messaging compliance, payments, and background operations.**
+> **Commissioned multi-tenant appointment platform under active development for a private client, combining deterministic scheduling, tenant isolation, conversational assistance, messaging compliance, payments, and background operations.**
 
 | Attribute | Verified status |
 |---|---|
 | Evidence level | **Verified Implementation + Test-Backed Validation** |
 | Maturity | **Commissioned Project — Active Development / Pre-Production** |
-| Project context | Private commissioned application for the Colombian salon and barbershop market |
+| Project context | Private commissioned multi-tenant SaaS application |
 | Implementation repository | Private |
 | Application version | `0.1.0` |
 | Primary capability | Application Engineering |
@@ -20,7 +20,7 @@
 
 ## Overview
 
-Turno is a commissioned multi-tenant appointment-management application currently under active development for the Colombian salon and barbershop market.
+Turno is a commissioned multi-tenant appointment-management SaaS application currently under active development and pre-production testing for a private client.
 
 The implementation goes beyond a calendar interface. It combines appointment scheduling, customer management, public booking, multi-channel conversations, human handoff, payments, background jobs, tenant-aware database controls, messaging consent, and a constrained conversational assistant inside one application architecture.
 
@@ -256,7 +256,7 @@ The following are not claimed by this evidence set:
 
 - active Railway production deployment;
 - live `turno.app` operation;
-- real salon or barbershop tenants in production;
+- real customer tenants in production;
 - live WhatsApp, Telegram, Twilio, Stripe, R2, Resend, or Sentry provider validation;
 - live payment processing;
 - live backup execution in production;
@@ -269,7 +269,7 @@ The following are not claimed by this evidence set:
 
 **TEST-BACKED VALIDATION** — repository checkpoints record 388 unit, 251 integration, 163 security, and 75 end-to-end tests passing at the latest verified implementation state, with earlier checkpoints also recording successful lint, typecheck, and production build.
 
-**COMMISSIONED / PRE-PRODUCTION** — Turno is being developed for a real commissioned use case in the Colombian salon and barbershop market. The client identity and commercial terms remain private. Railway service configuration and deployment procedures exist, but live external-service and production-environment verification remain outside the current evidence boundary.
+**COMMISSIONED / PRE-PRODUCTION** — Turno is being developed as a commissioned SaaS application for a private client. The client identity and commercial terms remain private. Railway service configuration and deployment procedures exist, but live external-service and production-environment verification remain outside the current evidence boundary.
 
 ## Disclosure boundary
 
