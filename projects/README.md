@@ -43,3 +43,9 @@ Production-deployed executive assessment and proposal platform with separated co
 Deterministic preflight auditing for AI-agent configuration, with structured findings for required fields, model settings, and explicit tool-permission declarations.
 
 **Evidence:** Verified Implementation + Test-Backed Validation.
+
+### [RACB Connect](./racb-connect.md)
+
+Production conversion gateway connecting QR-based physical touchpoints and direct web traffic to RACBCONSULTING discovery and assessment workflows through a lightweight, attribution-aware static application.
+
+**Evidence:** Verified Implementation + Production Deployment + Operational Integration.
