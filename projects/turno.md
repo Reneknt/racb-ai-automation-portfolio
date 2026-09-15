@@ -127,11 +127,7 @@ The handoff is visible to the operator and reversible. More importantly, it does
 
 **Human takeover ≠ compliance bypass.**
 
-The broader conversation flow is also visible in the application evidence:
-
-![Turno conversation handoff](../evidence/turno/turno-conversation-handoff.png)
-
-*Pre-production conversation evidence showing an assistant-to-human workflow and the staff reply surface. This image demonstrates the application state and handoff UX; it is not presented as proof of a live external AI-provider session.*
+This single evidence artifact is intentionally used for the handoff claim because it presents a coherent state transition without unrelated duplicate-message artifacts from earlier local testing.
 
 ## Deterministic controls before the model
 
@@ -299,7 +295,6 @@ Turno is not presented here as a production-running SaaS.
 | `turno-product-overview.png` | Product model, scheduling concept, visible operating boundaries | Pre-production application evidence |
 | `turno-visual-scheduled.mp4` | Direct visual manipulation of scheduling state | Pre-production runtime interaction evidence |
 | `turno-human-takeover.png` | Explicit human ownership and assistant-silent state | Pre-production application evidence |
-| `turno-conversation-handoff.png` | Conversation/handoff workflow surface | Pre-production application evidence |
 | `turno-deposit-guard.png` | Deposit-required booking blocked without payment capability | Pre-production guardrail evidence |
 | `turno-passwordless-auth.png` | Passwordless staff authentication UX | Pre-production application evidence |
 | Private implementation repository | Architecture, deterministic controls, RLS, queues, integrations, operational scripts | Verified implementation |
