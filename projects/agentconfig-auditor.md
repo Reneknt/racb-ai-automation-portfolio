@@ -22,6 +22,12 @@ The tool reads a JSON configuration, evaluates deterministic rules, and produces
 
 The implementation repository remains private. This page publishes the architecture, rule model, validation boundary, and verified capabilities without exposing private implementation history or internal configuration data.
 
+### Runtime audit and validation evidence
+
+![AgentConfig Auditor runtime audit and test validation](../evidence/agentconfig-auditor/Auditor%20evidence.png)
+
+*Sanitized runtime evidence showing AgentConfig Auditor evaluating an intentionally invalid test fixture, producing six deterministic findings across required-field, model-setting, and tool-permission rules, followed by the 43-test passing validation checkpoint.*
+
 ## The problem
 
 Agent configurations can look complete while still carrying preventable operational risk:
@@ -153,7 +159,7 @@ This makes the tool suitable as a deterministic preflight or pipeline gate, whil
 
 The implementation repository contains dedicated tests for the audit engine and rule behavior, plus fixtures for representative configurations.
 
-The latest documented implementation checkpoint records **43 tests passing** for the completed end-to-end auditor implementation.
+The published runtime evidence above records an execution against the intentionally invalid test fixture with **six findings**: two error-severity required-field findings and four warnings covering model settings and tool-permission declarations. The same evidence records **43 tests passing** immediately afterward.
 
 The repository also contains usage and extension documentation covering command behavior, configuration format, report structure, rule conventions, and test patterns.
 
@@ -207,7 +213,7 @@ The following are **not** claimed as current capabilities:
 
 **VERIFIED IMPLEMENTATION** — the private repository contains the CLI, audit engine, data models, deterministic rules, packaging configuration, fixtures, and documentation described here.
 
-**TEST-BACKED VALIDATION** — the repository contains dedicated automated tests for auditor and rule behavior, with a documented implementation checkpoint of 43 passing tests.
+**TEST-BACKED VALIDATION** — the repository contains dedicated automated tests for auditor and rule behavior, with published sanitized runtime evidence showing six deterministic findings from an intentionally invalid fixture and a 43-test passing validation checkpoint.
 
 No production runtime deployment claim is made for this project.
 
