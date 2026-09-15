@@ -91,13 +91,7 @@ Services can contain operational segments. A service such as a color treatment c
 
 This matters because utilization is not just a visual problem. The same availability model must remain valid across the management interface, public booking, and conversational paths, while database constraints protect against conflicting reservations under concurrency.
 
-The pre-production interface makes that operational state directly manipulable by staff:
-
-![Turno scheduling and rescheduling](../evidence/turno/turno-scheduling-reschedule.png)
-
-*Authenticated pre-production agenda showing multiple professionals and appointments after interactive rescheduling.*
-
-The accompanying motion evidence demonstrates the interaction rather than only the resulting state:
+The pre-production application demonstrates that operational state directly through interactive scheduling. The motion evidence below shows an appointment being grabbed and moved visually to another time slot:
 
 https://github.com/user-attachments/assets/b02aed24-03bf-4f18-ae90-2130eeb9c95f
 
@@ -303,7 +297,6 @@ Turno is not presented here as a production-running SaaS.
 | Evidence artifact | What it supports | Classification |
 |---|---|---|
 | `turno-product-overview.png` | Product model, scheduling concept, visible operating boundaries | Pre-production application evidence |
-| `turno-scheduling-reschedule.png` | Multi-professional agenda and rescheduled appointment state | Pre-production application evidence |
 | `turno-visual-scheduled.mp4` | Direct visual manipulation of scheduling state | Pre-production runtime interaction evidence |
 | `turno-human-takeover.png` | Explicit human ownership and assistant-silent state | Pre-production application evidence |
 | `turno-conversation-handoff.png` | Conversation/handoff workflow surface | Pre-production application evidence |
