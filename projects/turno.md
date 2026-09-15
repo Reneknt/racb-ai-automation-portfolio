@@ -99,7 +99,9 @@ The pre-production interface makes that operational state directly manipulable b
 
 The accompanying motion evidence demonstrates the interaction rather than only the resulting state:
 
-[**Watch pre-production visual rescheduling evidence (MP4)**](../evidence/turno/turno-visual-scheduled.mp4)
+https://github.com/user-attachments/assets/b02aed24-03bf-4f18-ae90-2130eeb9c95f
+
+*Pre-production runtime interaction evidence showing an appointment being moved visually to another time slot.*
 
 A staff operator can move an appointment visually to a different time slot. The significance is not the drag-and-drop gesture itself; it is that the UI is manipulating the same operational scheduling state governed by the application rather than maintaining a decorative calendar separate from business logic.
 
