@@ -4,7 +4,7 @@
 
 | Attribute | Verified status |
 |---|---|
-| Evidence level | **Verified Implementation + Production Deployment** |
+| Evidence level | **Verified Implementation + Production Deployment + Operational Integration** |
 | Implementation repository | Private |
 | Application version | `1.0.0` |
 | Primary capability | Automation & Integration |
@@ -29,6 +29,12 @@ The application is intentionally static-first. Its responsibility is to present 
 2. enter the RACBCONSULTING Business Assessment.
 
 This creates a small, independently deployable public surface while leaving stateful business processes to the systems designed to own them.
+
+### Production conversion surface
+
+![RACB Connect production conversion gateway](../evidence/racb-connect/connect.racbconsulting.com.png)
+
+*Production evidence for `connect.racbconsulting.com`, showing the live RACBCONSULTING entry surface, its Business Discovery Call and Business Assessment conversion paths, and the public explanation of the managed path from entry point through capture, scheduling, CRM, follow-up, and client progression.*
 
 ## The problem
 
@@ -148,7 +154,17 @@ connect.racbconsulting.com
 Discovery Call or Business Assessment
 ```
 
-The existence of those entry points demonstrates operational integration of the production gateway. No conversion-rate or attribution-performance claim is made without corresponding measurement evidence.
+### QR-enabled physical entry points
+
+![RACB Connect branded apparel QR entry point](../evidence/racb-connect/RACB%20Connect%20Polo.png)
+
+*Branded RACBCONSULTING apparel carrying a public “SCAN TO CONNECT” QR entry point, providing a physical path into the RACB Connect conversion gateway.*
+
+[View the RACBCONSULTING business-card evidence (PDF)](../evidence/racb-connect/RACBCONSULTING_Business_Card.pdf)
+
+*The business-card evidence includes a dedicated “SCAN TO START A CONVERSATION” QR surface, documenting a second physical acquisition touchpoint designed to enter the same digital conversion path.*
+
+The existence of these physical entry points demonstrates operational integration of the production gateway. No conversion-rate or attribution-performance claim is made without corresponding measurement evidence.
 
 ## Application structure
 
@@ -253,9 +269,9 @@ The following are **not** claimed as native RACB Connect capabilities:
 
 **VERIFIED IMPLEMENTATION** — the private repository contains the Astro application, component architecture, attribution module, brand system, production build configuration, container deployment option, healthcheck design, and deployment documentation described here.
 
-**PRODUCTION DEPLOYMENT** — `connect.racbconsulting.com` is the operational RACBCONSULTING conversion gateway and is used as the destination for live business entry points, including QR-based physical marketing surfaces. The current application is delivered as a static frontend through the RACBCONSULTING cPanel hosting environment.
+**PRODUCTION DEPLOYMENT** — the published production-surface evidence shows the operational RACBCONSULTING Connect gateway with both conversion destinations and the public managed-path model. The current application is delivered as a static frontend through the RACBCONSULTING cPanel hosting environment.
 
-**OPERATIONAL INTEGRATION** — the production interface routes visitors into the separate Business Discovery Call scheduler and RACBCONSULTING Business Assessment, preserving allowlisted attribution parameters on marked links.
+**OPERATIONAL INTEGRATION** — published physical evidence shows QR-enabled business-card and branded-apparel entry points feeding the Connect gateway, while the production interface routes visitors into the separate Business Discovery Call scheduler and RACBCONSULTING Business Assessment. Approved attribution parameters are preserved on marked downstream links.
 
 No conversion-rate, campaign-performance, CRM-ownership, or backend-processing claim is made for Connect itself.
 
