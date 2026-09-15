@@ -1,11 +1,12 @@
 # Turno
 
-> **Multi-tenant appointment platform for salons and barbershops combining deterministic scheduling, tenant isolation, conversational assistance, messaging compliance, payments, and background operations.**
+> **Commissioned multi-tenant appointment platform under active development for the Colombian salon and barbershop market, combining deterministic scheduling, tenant isolation, conversational assistance, messaging compliance, payments, and background operations.**
 
 | Attribute | Verified status |
 |---|---|
 | Evidence level | **Verified Implementation + Test-Backed Validation** |
-| Maturity | **Substantial Active Development — Not Deployed** |
+| Maturity | **Commissioned Project — Active Development / Pre-Production** |
+| Project context | Private commissioned application for the Colombian salon and barbershop market |
 | Implementation repository | Private |
 | Application version | `0.1.0` |
 | Primary capability | Application Engineering |
@@ -19,11 +20,11 @@
 
 ## Overview
 
-Turno is a multi-tenant appointment-management SaaS designed for salons and barbershops.
+Turno is a commissioned multi-tenant appointment-management application currently under active development for the Colombian salon and barbershop market.
 
 The implementation goes beyond a calendar interface. It combines appointment scheduling, customer management, public booking, multi-channel conversations, human handoff, payments, background jobs, tenant-aware database controls, messaging consent, and a constrained conversational assistant inside one application architecture.
 
-The project is intentionally classified as **implemented and extensively validated, but not deployed**. Repository deployment documentation explicitly separates what is already built from the external-service and production checks that still require real accounts and a live environment.
+The project is intentionally classified as **implemented and extensively validated, but still pre-production**. Repository deployment documentation explicitly separates what is already built from the external-service and production checks that still require real accounts and a live environment. No client identity or private commercial terms are disclosed in this public evidence set.
 
 ## The problem
 
@@ -154,7 +155,7 @@ The deployment design requires Redis `noeviction` behavior because silent evicti
 
 Turno also contains backup and restore-verification scripts, with repository documentation describing a daily database dump and a scheduled restore check against a disposable database as part of the intended production operating model.
 
-These are implemented operational controls, but they are not presented as production-running evidence because Turno has not been deployed.
+These are implemented operational controls, but they are not presented as production-running evidence because Turno remains pre-production.
 
 ## Validation evidence
 
@@ -228,6 +229,7 @@ This case study does not claim that Turno is currently running in production.
 
 Turno provides evidence of capability in:
 
+- commissioned application engineering;
 - multi-tenant SaaS architecture;
 - TypeScript monorepo engineering;
 - Next.js application development;
@@ -248,7 +250,7 @@ Turno provides evidence of capability in:
 
 ## Deliberate boundaries
 
-Turno is not presented as a production-deployed SaaS or as proof of live external-provider operation.
+Turno is not presented as a production-deployed SaaS or as proof of live external-provider operation. It remains a commissioned project under active development and pre-production validation.
 
 The following are not claimed by this evidence set:
 
@@ -267,17 +269,17 @@ The following are not claimed by this evidence set:
 
 **TEST-BACKED VALIDATION** — repository checkpoints record 388 unit, 251 integration, 163 security, and 75 end-to-end tests passing at the latest verified implementation state, with earlier checkpoints also recording successful lint, typecheck, and production build.
 
-**DEPLOYMENT-READY DESIGN, NOT PRODUCTION EVIDENCE** — Railway service configuration and deployment procedures exist, but the repository explicitly identifies external-service and live-environment verification steps that remain outside the validated implementation evidence.
+**COMMISSIONED / PRE-PRODUCTION** — Turno is being developed for a real commissioned use case in the Colombian salon and barbershop market. The client identity and commercial terms remain private. Railway service configuration and deployment procedures exist, but live external-service and production-environment verification remain outside the current evidence boundary.
 
 ## Disclosure boundary
 
-The implementation repository remains private. This Technical Evidence Center does not expose private credentials, encryption material, provider secrets, database connection strings, tenant/customer data, internal test fixtures containing sensitive values, or proprietary implementation details unnecessary for technical review.
+The implementation repository remains private. The commissioning client is not identified, and no private commercial terms are disclosed. This Technical Evidence Center does not expose private credentials, encryption material, provider secrets, database connection strings, tenant/customer data, internal test fixtures containing sensitive values, or proprietary implementation details unnecessary for technical review.
 
-Published evidence is limited to sanitized architecture, verified implementation characteristics, validation results, and operational boundaries.
+Published evidence is limited to sanitized project context, architecture, verified implementation characteristics, validation results, and operational boundaries.
 
 ## Interested in this architecture?
 
-Turno is a private RACB application-engineering project and is not presented as an open-source application release or a currently deployed commercial service.
+Turno is a private commissioned RACB application-engineering project currently under active development. It is not presented as an open-source application release or a currently deployed commercial service.
 
 Organizations exploring multi-tenant scheduling platforms, conversational appointment workflows, deterministic AI authority boundaries, tenant-aware data architecture, multi-channel messaging, or queue-backed operational systems may contact RACBCONSULTING to discuss architecture, engineering, validation, or adaptation to related operational problems.
 
