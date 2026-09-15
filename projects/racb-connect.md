@@ -160,9 +160,9 @@ Discovery Call or Business Assessment
 
 *Branded RACBCONSULTING apparel carrying a public “SCAN TO CONNECT” QR entry point, providing a physical path into the RACB Connect conversion gateway.*
 
-[View the RACBCONSULTING business-card evidence (PDF)](../evidence/racb-connect/RACBCONSULTING_Business_Card.pdf)
+![RACB Connect business card QR entry point](../evidence/racb-connect/RACB%20Connect%20Business%20Card.png)
 
-*The business-card evidence includes a dedicated “SCAN TO START A CONVERSATION” QR surface, documenting a second physical acquisition touchpoint designed to enter the same digital conversion path.*
+*RACBCONSULTING business card combining public company and contact information with a dedicated “SCAN TO START A CONVERSATION” QR surface, documenting a second physical acquisition touchpoint designed to enter the same digital conversion path.*
 
 The existence of these physical entry points demonstrates operational integration of the production gateway. No conversion-rate or attribution-performance claim is made without corresponding measurement evidence.
 
