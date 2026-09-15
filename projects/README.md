@@ -52,6 +52,6 @@ Production conversion gateway connecting QR-based physical touchpoints and direc
 
 ### [Turno](./turno.md)
 
-Multi-tenant appointment platform for salons and barbershops combining deterministic scheduling, database-level tenant isolation, conversational assistance, multi-channel messaging, payments, background operations, and explicit AI authority boundaries.
+Commissioned multi-tenant appointment platform under active development for the Colombian salon and barbershop market, combining deterministic scheduling, database-level tenant isolation, conversational assistance, multi-channel messaging, payments, and background operations.
 
-**Evidence:** Verified Implementation + Test-Backed Validation. **Maturity:** Substantial Active Development — Not Deployed.
+**Evidence:** Verified Implementation + Test-Backed Validation. **Maturity:** Commissioned Project — Active Development / Pre-Production.
