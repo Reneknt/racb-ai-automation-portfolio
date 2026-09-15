@@ -49,3 +49,9 @@ Deterministic preflight auditing for AI-agent configuration, with structured fin
 Production conversion gateway connecting QR-based physical touchpoints and direct web traffic to RACBCONSULTING discovery and assessment workflows through a lightweight, attribution-aware static application.
 
 **Evidence:** Verified Implementation + Production Deployment + Operational Integration.
+
+### [Turno](./turno.md)
+
+Multi-tenant appointment platform for salons and barbershops combining deterministic scheduling, database-level tenant isolation, conversational assistance, multi-channel messaging, payments, background operations, and explicit AI authority boundaries.
+
+**Evidence:** Verified Implementation + Test-Backed Validation. **Maturity:** Substantial Active Development — Not Deployed.
