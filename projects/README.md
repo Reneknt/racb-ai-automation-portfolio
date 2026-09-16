@@ -32,6 +32,12 @@ Version-controlled infrastructure platform for RACBCONSULTING, currently anchore
 
 **Evidence:** Verified Implementation + Runtime Correlation + Documentation Governance. **Maturity:** Validated Infrastructure Platform.
 
+### [RACB Production VPS Infrastructure](./racb-production-vps.md)
+
+Production cloud infrastructure for RACBCONSULTING combining Docker-hosted services, key-only administration, independent recovery access, encrypted offline key custody, controlled OS/network maintenance, and validated post-reboot workload recovery.
+
+**Evidence:** Verified Runtime + Recovery Validation + Maintenance Validation. **Maturity:** Validated Production Infrastructure.
+
 ### [RACBCONSULTING MVP](./racbconsulting-mvp.md)
 
 Production-deployed executive assessment and proposal platform with separated consultant/prospect authorization, assessment-bound workflow controls, deterministic proposal generation, and an operational scheduling-to-CRM handoff.
