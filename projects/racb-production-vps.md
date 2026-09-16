@@ -21,6 +21,12 @@ Unlike a simple application host, the platform is operated as a recoverable prod
 
 This public portfolio page intentionally sanitizes operational details. Public IP addresses, administrative usernames, SSH public-key fingerprints, private key material, local filesystem paths, exact recovery aliases, internal routing details, credentials, environment files, and other security-sensitive artifacts are excluded.
 
+### Production runtime evidence
+
+![RACB Production VPS container runtime](../evidence/vps/evidence-vps-containers.png)
+
+*Sanitized Portainer evidence showing the production container surface across RACBCONSULTING application, scheduling, automation, CRM, reverse-proxy, and data-service workloads. Administrative identity, IP addressing, and published-port mappings are intentionally redacted.*
+
 ## The problem
 
 A production VPS can appear healthy while remaining operationally fragile.
@@ -98,6 +104,10 @@ Verified controls include:
 | Fresh primary login after hardening | Successful |
 | Fresh primary login after reboot | Successful |
 
+![RACB Production VPS SSH hardening](../evidence/vps/evidence-vps-ssh-hardening.png)
+
+*Sanitized effective-configuration evidence confirming public-key authentication enabled while direct root login and SSH password authentication are disabled. Operator and host identity are intentionally redacted.*
+
 Hardening was performed with configuration backup, syntax validation, effective-configuration inspection, daemon reload, and a fresh independent login test before the previous administrative session was treated as expendable.
 
 ## Independent recovery architecture
@@ -114,6 +124,10 @@ The recovery path uses:
 - direct root SSH disabled globally.
 
 The recovery identity was tested through a fresh SSH session and validated through non-interactive privilege escalation to root.
+
+![RACB Production VPS independent recovery validation](../evidence/vps/evidence-vps-recovery-validation.png)
+
+*Sanitized recovery drill evidence confirming an independent SSH recovery session, independent recovery identity, non-interactive administrative path, and successful root privilege escalation without disclosing the recovery username, host, key, alias, or network address.*
 
 This establishes a recovery path independent from the normal administrative SSH identity.
 
@@ -233,6 +247,10 @@ The closing validation established the following runtime state:
 | Production containers | Running |
 | Health-checked production services | Healthy |
 | Failed systemd units | 0 |
+
+![RACB Production VPS final health validation](../evidence/vps/evidence-vps-final-health.png)
+
+*Sanitized post-maintenance health evidence correlating the booted kernel, reboot state, SSH, Docker, host networking, primary interface, failed-unit count, and production container recovery at a single validation checkpoint.*
 
 This is a point-in-time operational validation, not a guarantee of perpetual availability.
 
