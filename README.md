@@ -33,7 +33,7 @@ This evidence center documents implemented engineering work, validation boundari
 The following snapshots describe **work in progress**, not finished production products:
 
 - [RACB Voice Platform (ANA)](projects/racb-voice-platform.md) — governed telephony and realtime voice engineering.
-- [RACB Content Platform](projects/racb-content-platform.md) — content automation infrastructure and workflows, awaiting end-to-end publishing validation.
+- [RACB Content Platform](projects/racb-content-platform.md) — content automation infrastructure, with an owner-reported first LinkedIn text-only publication; carousel and wider publishing flows remain unvalidated.
 
 ## Evidence and disclosure
 
