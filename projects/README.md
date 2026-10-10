@@ -61,3 +61,15 @@ Production conversion gateway connecting QR-based physical touchpoints and direc
 Commissioned multi-tenant appointment platform under active development for the Colombian salon and barbershop market, combining deterministic scheduling, database-level tenant isolation, conversational assistance, multi-channel messaging, payments, and background operations.
 
 **Evidence:** Verified Implementation + Test-Backed Validation. **Maturity:** Commissioned Project — Active Development / Pre-Production.
+
+### [RACB Voice Platform (ANA)](./racb-voice-platform.md)
+
+Governed telephony ingress and realtime voice engineering with durable operational state, explicit authority boundaries, and staged release engineering. The documented target release has not been established as production.
+
+**Evidence:** Repository-Documented Implementation + Bounded Slice Validation. **Maturity:** In Development.
+
+### [RACB Content Platform](./racb-content-platform.md)
+
+n8n-based content automation foundation with dedicated PostgreSQL bootstrap, workflow artifacts, editorial pipeline design and a documented compatibility investigation. Full end-to-end publishing remains unvalidated.
+
+**Evidence:** Repository-Documented Infrastructure + Workflow Foundation. **Maturity:** In Development.
