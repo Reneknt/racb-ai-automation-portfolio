@@ -70,6 +70,6 @@ Governed telephony ingress and realtime voice engineering with durable operation
 
 ### [RACB Content Platform](./racb-content-platform.md)
 
-n8n-based content automation foundation with dedicated PostgreSQL bootstrap, workflow artifacts, editorial pipeline design and a documented compatibility investigation. Full end-to-end publishing remains unvalidated.
+n8n-based content automation foundation with dedicated PostgreSQL bootstrap, workflow artifacts, editorial pipeline design and a documented compatibility investigation. First LinkedIn text-only publication test passed (owner-reported); carousel and wider production workflows remain unvalidated.
 
-**Evidence:** Repository-Documented Infrastructure + Workflow Foundation. **Maturity:** In Development.
+**Evidence:** Repository-Documented Implementation + Owner-Reported Text Publication Acceptance. **Maturity:** In Development.
