@@ -12,6 +12,7 @@
 | Delivery model | Architect / Builder / independent Reviewer |
 | Git safety controls | 14 deterministic gates |
 | Latest documented full-suite verification | 761 tests run, 2 skipped, 0 failures, 0 errors |
+| Evidence snapshot | **Closed — 2026-10-10** (historical evidence, not current runtime certification) |
 
 ## Overview
 
