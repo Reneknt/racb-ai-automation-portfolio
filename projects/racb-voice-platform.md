@@ -1,39 +1,117 @@
 # RACB Voice Platform (ANA)
 
-**Evidence snapshot:** 2026-10-10  
-**Maturity:** In Development  
-**Source:** Private implementation repository; public claims limited to documented implementation and validation.
+> **Governed realtime voice and telephony platform engineering with durable operational state, deterministic authority boundaries and controlled release preparation.**
 
-## Purpose
+| Attribute | Current evidence status |
+|---|---|
+| Evidence level | **Repository-Documented Implementation + Bounded Slice Validation** |
+| Implementation repository | Private |
+| Maturity | **Active Development — Staged Release, Cutover Not Established** |
+| Primary capability | AI & Agentic Systems |
+| Secondary capability | AI Operations & Governance |
+| Telephony ingress | Twilio webhooks and bidirectional Media Streams |
+| Realtime adapter | OpenAI Realtime |
+| Operational store | PostgreSQL |
+| Deployment engineering | Immutable packaging, staging/preflight and cutover-state foundations |
+| Snapshot reviewed | 2026-10-10 |
 
-A governed operational foundation for an AI receptionist, connecting inbound telephony, structured lead capture, human escalation and future CRM/scheduling integration.
+## Overview
+
+RACB Voice Platform, also known as ANA, is the operational foundation for a governed AI receptionist. It combines inbound telephony, realtime conversation, durable call state and human handoff with explicit controls on what automated components are permitted to do.
+
+This is a **development-stage case study**, not a claim that the reviewed staged release has completed production cutover.
+
+## The problem
+
+A realtime voice agent can converse fluently without possessing the authority, durable state or operational safeguards needed to modify CRM records, schedule appointments or trigger customer-facing actions.
+
+**Conversation capability ≠ authority to perform external business actions.**
+
+## Architecture
+
+```mermaid
+flowchart LR
+    CALL[Inbound Call] --> TW[Twilio Ingress]
+    TW --> RT[Realtime Conversation Runtime]
+    RT --> GW[Deterministic Capability Gateway]
+    GW --> STATE[(PostgreSQL State / Events)]
+    GW --> HANDOFF[Human Escalation / Handoff]
+    GW -. Future Adapters .-> EXT[CRM / Scheduling / Notifications]
+```
+
+The dashed adapter path is **future integration scope**, not evidence of completed production business side effects.
 
 ## Documented implementation
 
-- PostgreSQL operational state, events, idempotency primitives and call/stream correlation.
+The private repository describes:
+
 - Twilio inbound webhook and authenticated bidirectional Media Streams ingress.
-- Realtime conversation runtime with provider-neutral interfaces and an OpenAI Realtime adapter.
-- Human escalation queue, handoff packet and minimal authenticated Handoff Console scaffold.
-- Deterministic capability/authority boundary for external effects.
-- Immutable release packaging, staging/preflight and crash-safe cutover-state foundations.
+- Call/stream correlation, lifecycle state and aggregate media counters.
+- Operational events, explicit state contracts and database-backed idempotency.
+- Human escalation queue and handoff packet.
+- Minimal authenticated Handoff Console scaffold.
+- Provider-neutral realtime conversation runtime and OpenAI Realtime adapter.
+- Deterministic capability/authority boundary that rejects unsupported actions.
+- Immutable release packaging and runtime release identity.
+- Staging/preflight and crash-safe cutover journal/lock foundations.
 
-## Evidence boundary
+## Validation evidence
 
-The private project documentation records validation of the foundational, telephony ingress and realtime voice slices, including a controlled live PSTN acceptance test. **This does not establish that the current staged release is deployed to production.**
+The project README records validation for the operational foundation, telephony ingress and realtime voice slices, including a controlled live PSTN acceptance exercise.
 
-The documented target release was staged, with production cutover not yet established. A VPS-local deployment adapter/launcher bridge was described as uncommitted and not run on the VPS in the reviewed README.
+That historical acceptance demonstrates a bounded realtime slice. It does **not** establish that the currently staged target release is production-deployed.
 
-## Not yet established
+The reviewed README also describes a local VPS adapter/launcher bridge as uncommitted and not run on the VPS. No later cutover is asserted without additional release-specific evidence.
 
-- Production-ready Twenty CRM, scheduling or n8n adapters and business side effects.
-- Completed production cutover of the documented staged target.
-- Production readiness of the Handoff Console.
-- Full customer deployment automation.
+## Verified technology profile
 
-## Engineering significance
+| Area | Documented implementation |
+|---|---|
+| Telephony | Twilio inbound webhooks and Media Streams |
+| Realtime conversation | Provider-neutral runtime + OpenAI Realtime adapter |
+| Operational persistence | PostgreSQL |
+| Call lifecycle | Durable state and operational events |
+| Safety boundary | Deterministic capability/authority checks |
+| Escalation | Human handoff queue and packet |
+| Deployment | Release packaging, preflight and cutover-state foundations |
+| Source control | Git / private GitHub repository |
 
-This work demonstrates deliberate separation of AI conversation capability, deterministic authority to perform external actions, durable operational state and controlled release engineering.
+## Capabilities demonstrated
 
-## Disclosure
+- Telephony and realtime voice integration engineering.
+- State and idempotency design for event-driven systems.
+- Separation of conversational inference from business-action authority.
+- Human escalation and controlled handoff.
+- Release identity, staged deployment and failure-aware cutover preparation.
+- Bounded validation claims and explicit operational limits.
 
-This is a bounded engineering snapshot, **not a production-service certification**. No phone numbers, customer information, credentials, or internal deployment identifiers are published here. Update this case only after new evidence is independently reviewed.
+## Deliberate boundaries
+
+This snapshot does **not** establish:
+
+- Production cutover of the documented staged target.
+- Production-ready Twenty CRM, scheduling or n8n adapters.
+- Full customer provisioning and deployment automation.
+- Production-ready authentication and deployment of the Handoff Console.
+- Persistent raw audio or full transcripts as a default behavior.
+
+## Evidence classification
+
+**REPOSITORY-DOCUMENTED IMPLEMENTATION** — the private repository describes the operational foundation, ingress, realtime runtime, deterministic gateway and deployment components.
+
+**BOUNDED SLICE VALIDATION** — historical records cover foundation, ingress and controlled live realtime telephony acceptance within their documented scope.
+
+**ACTIVE DEVELOPMENT** — the current staged release, production adapters and broader operational rollout are not represented as complete.
+
+## Disclosure boundary
+
+No credentials, private phone numbers, customer records, internal network details or proprietary implementation source are exposed in this public case.
+
+## Interested in this architecture?
+
+ANA is an internal RACBCONSULTING engineering platform under active development, not an open-source application release. The work demonstrates how realtime AI capability can be constrained by deterministic operational authority.
+
+---
+
+**Rene Canete / RACBCONSULTING**  
+Technical Evidence Center
