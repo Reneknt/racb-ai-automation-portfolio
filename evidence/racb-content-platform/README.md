@@ -4,7 +4,7 @@
 
 ## What is documented
 
-Content workflow architecture, database/bootstrap integration and editorial automation. The case records an owner-reported first LinkedIn text-only publication acceptance; no sanitized public screenshot or independently correlated runtime execution record is published in this folder. Carousel and wider end-to-end workflows are not claimed as validated.
+Content workflow architecture, database/bootstrap integration and editorial automation. This platform is currently on standby. No completed LinkedIn publication is established for this project; the owner-reported successful LinkedIn text-only publication belongs to the separate RACB Postmaker project. Carousel and wider end-to-end workflows are not claimed as validated.
 
 ## Public artifact status
 
