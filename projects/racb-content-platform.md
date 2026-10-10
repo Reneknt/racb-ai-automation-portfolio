@@ -1,18 +1,18 @@
 # RACB Content Platform
 
-> **Governed content automation foundation for distinct personal and corporate editorial pipelines, with a first successful LinkedIn text-only publication test reported by the project owner.**
+> **Governed content automation foundation for distinct personal and corporate editorial pipelines, currently paused while RACB Postmaker is prioritized.**
 
 | Attribute | Current evidence status |
 |---|---|
-| Evidence level | **Repository-Documented Implementation + Owner-Reported Text Publication Acceptance** |
+| Evidence level | **Repository-Documented Implementation + Infrastructure Bootstrap Validation** |
 | Implementation repository | Private |
-| Maturity | **Active Development** |
+| Maturity | **Development Paused / Standby** |
 | Primary capability | Automation & Integration |
 | Secondary capability | AI Operations & Governance |
 | Orchestration | n8n |
 | Operational data | PostgreSQL |
 | Deployment foundation | Docker Compose |
-| First publication | **LinkedIn text-only test passed (owner-reported)** |
+| Publication status | **No completed LinkedIn publication established for this project** |
 | Carousel publishing | **Not yet validated** |
 | Snapshot reviewed | 2026-10-10 |
 
@@ -20,7 +20,7 @@
 
 RACB Content Platform is being developed to automate content preparation, review and publication for RACBCONSULTING and its leadership, while preserving separate editorial identities and auditable operational state.
 
-The first demonstrated publication milestone is a **successful text-only LinkedIn publication test**, confirmed by the project owner. This is a narrower claim than end-to-end approval, branded carousel generation, multi-account scheduling, or multi-channel production operations.
+Development is currently on standby while RACB Postmaker, a separate LinkedIn-specific project, is prioritized. The successful LinkedIn text-only publication reported by the owner belongs to Postmaker, not to this Content Platform.
 
 ## The problem
 
@@ -54,13 +54,11 @@ The private repository documents:
 - Investigation and a documented workaround for an n8n PostgreSQL expression-replacement issue.
 - Git-based development and change history.
 
-## First publication acceptance
+## Publication and development boundary
 
-**Owner-reported acceptance:** The first LinkedIn publication test completed successfully using **text only**, without carousel media.
+The repository's documented infrastructure/bootstrap work is distinct from a validated LinkedIn publication. No successful publication is established for RACB Content Platform at this checkpoint.
 
-This updates the earlier repository working-memory checkpoint, which still described the first publication as pending. That earlier record is treated as historical, not as proof that the later test failed.
-
-**Evidence boundary:** The owner has confirmed the test result; the public case does not yet include a sanitized execution log, publication receipt or independently inspected post record. Accordingly, the test is not represented as independently verified production-wide automation.
+RACB Postmaker is a separate, LinkedIn-specific project. Its owner-reported successful text-only publication must not be attributed to this platform. Work on Content Platform is currently paused while Postmaker is prioritized.
 
 ## Verified technology profile
 
@@ -70,9 +68,9 @@ This updates the earlier repository working-memory checkpoint, which still descr
 | Persistent operational store | PostgreSQL |
 | Environment | Docker Compose |
 | Workflow artifacts | Development, production and bootstrap |
-| Content generation | OpenAI integration planned and exercised within the reported text publication path, pending artifact-level verification |
+| Content generation | OpenAI integration planned; no completed publication path validated for this project |
 | Media rendering | Renderer source present; end-to-end carousel output not validated |
-| Publishing | LinkedIn text-only first acceptance reported |
+| Publishing | No completed publication validated for this project |
 | Source control | Git / private GitHub repository |
 
 ## Capabilities demonstrated
@@ -82,7 +80,6 @@ This updates the earlier repository working-memory checkpoint, which still descr
 - PostgreSQL-backed operational foundations.
 - Reusable workflow artifacts and bootstrap practices.
 - Investigation and documentation of workflow compatibility issues.
-- First text-only LinkedIn publication acceptance, as reported by the owner.
 - Explicit differentiation between development milestones and production readiness.
 
 ## Deliberate boundaries
@@ -99,9 +96,9 @@ The current snapshot does **not** establish:
 
 **REPOSITORY-DOCUMENTED IMPLEMENTATION** — infrastructure, workflow files, database bootstrap and engineering documentation are present in the private repository.
 
-**OWNER-REPORTED PUBLICATION ACCEPTANCE** — a first text-only LinkedIn publication test passed, according to the project owner. Sanitized runtime evidence is still needed for an independently verifiable claim.
+**INFRASTRUCTURE BOOTSTRAP VALIDATION** — the private repository documents database bootstrap, schema creation, seed data, and workflow synchronization; this is not publication acceptance.
 
-**ACTIVE DEVELOPMENT** — media, broader approval and publication capabilities remain subject to further validation.
+**STANDBY** — further Content Platform development is paused while the separate RACB Postmaker project is prioritized. Publication and broader approval capabilities remain unvalidated here.
 
 ## Disclosure boundary
 
