@@ -13,6 +13,7 @@
 | Interface | CLI + structured JSON report |
 | Built-in audit rules | 3 deterministic rule families |
 | Latest documented validation checkpoint | 43 tests passing |
+| Evidence snapshot | **Closed — 2026-10-10** (historical evidence, not current runtime certification) |
 
 ## Overview
 
